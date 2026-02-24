@@ -1,0 +1,58 @@
+{
+  "appTitle": "Energy Slime",
+  "@appTitle": { "description": "The title of the application" },
+  "noDataMsg": "No step data available.\nPlease link to Samsung Health or Google Fit.",
+  "connect": "Connect",
+  "todayRecord": "Today's Record",
+  "calories": "Calories",
+  "activeTime": "Active Time",
+  "steps": "{steps} Steps",
+  "stepsUnit": "Steps",
+  "@steps": {
+    "placeholders": {
+      "steps": { "type": "String", "example": "1,000" }
+    }
+  },
+  "progressSteps": "{current} / {target} Steps",
+  "@progressSteps": {
+    "placeholders": {
+      "current": { "type": "String", "example": "1,000" },
+      "target": { "type": "String", "example": "10,000" }
+    }
+  },
+  "trackingSteps": "Tracking steps...",
+  "testingTitle": "Test: Set Step Count",
+  "stepsSetMessage": "Step count set to {steps} steps!",
+  "@stepsSetMessage": {
+    "placeholders": {
+      "steps": { "type": "int", "example": "100" }
+    }
+  },
+  "noHealthDataWarning": "Unable to fetch data. Please sync Samsung Health or check permissions.",
+  
+  "settings": "Settings",
+  "myInfo": "My Profile",
+  "checkHistory": "History",
+  "historySubtitle": "Check your daily steps and slime growth.",
+  "themeSettings": "Theme Settings",
+  "darkTheme": "Use Dark Theme",
+  "darkThemeSubtitle": "Sets the app background to a dark color.",
+  
+  "goalFullText": "10,000 steps basis (Full)",
+  "kcalInfoText": "The number below the date is kcal burned",
+  
+  "slimeSpeechHungry": "I'm too hungry to move...\n({remaining} steps left)",
+  "@slimeSpeechHungry": {
+    "placeholders": {
+      "remaining": { "type": "int" }
+    }
+  },
+  "slimeSpeechActive": "Almost there!\nI'm feeling lighter!",
+  "slimeSpeechParty": "Today is the best!\nI'm now an invincible slime!",
+  "stepUnit": "{count} Steps",
+  "@stepUnit": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  }
+}

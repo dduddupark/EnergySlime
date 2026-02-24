@@ -1,0 +1,31 @@
+{
+  "appTitle": "Energy Slime",
+  "noDataMsg": "걸음 수 데이터가 없습니다.\n삼성 헬스 또는 구글 피트니스와 연동해주세요.",
+  "connect": "연결하기",
+  "todayRecord": "오늘의 기록",
+  "calories": "Calories",
+  "activeTime": "Active Time",
+  "steps": "{steps} 걸음",
+  "stepsUnit": "보",
+  "progressSteps": "{current} / {target} 걸음",
+  "trackingSteps": "걸음 수 기록 중...",
+  "testingTitle": "테스트: 걸음 수 설정",
+  "stepsSetMessage": "걸음수가 {steps}보로 설정되었습니다!",
+  "noHealthDataWarning": "데이터를 가져올 수 없습니다. 삼성 헬스앱을 동기화하거나 권한을 확인해주세요.",
+  
+  "settings": "설정",
+  "myInfo": "내 정보",
+  "checkHistory": "기록 확인",
+  "historySubtitle": "날짜별 걸음 수와 슬라임 성장도를 확인합니다.",
+  "themeSettings": "테마 설정",
+  "darkTheme": "다크 테마 사용",
+  "darkThemeSubtitle": "앱의 배경을 어둡게 설정합니다.",
+  
+  "goalFullText": "10,000보 기준 (가득 참)",
+  "kcalInfoText": "날짜 아래 숫자는 소모 kcal 입니다",
+  
+  "slimeSpeechHungry": "배고파서 움직일 힘이 없어...\n({remaining}보 남음)",
+  "slimeSpeechActive": "조금만 더!\n몸이 가벼워지고 있어!",
+  "slimeSpeechParty": "오늘 최고야!\n나는 이제 무적의 슬라임!",
+  "stepUnit": "{count} 보"
+}
