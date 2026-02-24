@@ -1,17 +1,44 @@
-# stepflow
+# 🔋 Energy Slime (Stepflow)
 
-A new Flutter project.
+**Energy Slime**은 귀여운 거품(슬라임)을 성장시키며 목표 걸음 수를 채워나가는, 재미있고 직관적인 건강 관리 및 만보기 앱입니다! 
+걸음 수에 따라 동적으로 반응하는 슬라임 캐릭터를 통해 동기 부여를 제공하며, 사용자의 일일 활동 및 누적 데이터를 달력으로 정리하여 보여줍니다.
 
-## Getting Started
+## 🚀 주요 기능 (Features)
 
-This project is a starting point for a Flutter application.
+* **🏃‍♂️ 실시간 걸음 수 측정 & 배경 동기화**
+  * 스마트폰에 내장된 센서를 이용해 앱이 백그라운드나 종료 상태에 있어도 지속적으로 걸음 수를 누적하여 카운트해 줍니다. (`flutter_foreground_task` & `pedometer` 서비스 활용)
+  * 삼성 헬스 및 구글 피트니스의 공식 Health API 연동을 결합하여, 더 정확한 칼로리 및 운동 데이터를 확보하고 표시합니다.
+  
+* **🌟 성장하는 귀여운 슬라임 (Gamification)**
+  * 사용자의 걸음 수가 누적됨에 따라, 대시보드 화면 중앙의 슬라임 캐릭터의 크기, 이펙트, 대사가 동적으로 변합니다.
+  * 걸음 수 목표치에 따른 슬라임의 다양한 성장 상태 (배고픔 -> 가벼워짐 -> 무적의 슬라임 🎉)를 시각적인 피드백과 말풍선으로 제공합니다.
 
-A few resources to get you started if this is your first Flutter project:
+* **📅 히스토리 달력 및 직관적 시각화**
+  * 직관적인 달력 컴포넌트를 통해 과거 날짜별 나의 걸음 수 도달률과 슬라임의 성장 상태를 한눈에 볼 수 있습니다.
+  * 달성률에 따라 달력 속 슬라임 모양의 크기와 색상이 달라지며, 걸음 수 외에도 당일의 총 소모 칼로리와 운동 시간을 함께 열람할 수 있습니다.
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+* **🌙 다크 모드 (Dark Theme)**
+  * 사용자의 눈을 편안하게 해주는 다크 모드를 지원합니다.
+  * 시스템 테마 뿐 아니라, 앱 내부 설정 메뉴에서 독립적으로 다크/라이트 테마를 고정할 수 있습니다.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+* **🌐 다국어 지원 (Localization)**
+  * 사용자의 핸드폰 시스템 언어 설정에 따라 텍스트와 날짜 양식이 시스템 언어로 완전하게 자동 변환됩니다.
+  * 현재 공식적으로 한국어(Korean)와 영어(English) 번역이 완벽하게 지원되며 향후 손쉽게 다른 언어 확장이 가능한 구조로 설계되었습니다.
+
+## 🛠 사용된 핵심 기술 스택
+- **Framework:** Flutter (Dart)
+- **Local Storage:** `shared_preferences` & `sqflite` (앱 세팅 및 걸음 수 저장)
+- **Health Sync:** `health` 패키지 (Health Connect 프로토콜 연동)
+- **Background Tracking:** `flutter_foreground_task` (안드로이드/iOS 서비스 트래킹 지원)
+- **Localization:** `flutter_localizations`, `intl` (다국어 변수 치환 및 날짜 렌더링)
+
+## ⏳ 추가 및 개선 예정 사항
+* [x] 건강 데이터(걸음 수, 칼로리) 삼성 헬스 연동
+* [x] 백그라운드 환경 걸음 수 감지 시스템 구축
+* [x] 다국어(한국어, 영어) 완벽 지원 + 지역화 달력 렌더링
+* [x] 앱 내 다크 모드 토글 시스템 구현
+* [ ] *(새로운 기능이 추가될 때마다 이곳에 기록될 예정입니다)*
+
+---
+
+*💡 참고: 이 `README.md` 문서는 어플리케이션에 새로운 기능이나 주요 변경 사항이 생길 때마다 자동으로 업데이트됩니다.*
