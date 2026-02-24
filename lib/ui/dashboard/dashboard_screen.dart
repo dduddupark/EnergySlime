@@ -6,12 +6,13 @@ import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:health/health.dart';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
-import '../../data/services/fallback_pedometer_service.dart';
-import '../../data/services/foreground_task_handler.dart';
 import 'package:health/health.dart';
 import '../../data/services/fallback_pedometer_service.dart';
+import '../../data/services/foreground_task_handler.dart';
 import '../../data/services/shop_storage_service.dart';
+import '../../data/models/shop_item.dart';
 import '../settings/settings_screen.dart';
+import '../shop/shop_screen.dart';
 import 'package:stepflow/l10n/app_localizations.dart';
 import 'dart:async';
 
@@ -34,6 +35,7 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
   DateTime? _lastPermissionRequestTime;
   StreamSubscription<int>? _stepSubscription;
   int _currentPoints = 0;
+  List<ShopItem> _equippedItems = [];
 
   @override
   void initState() {
@@ -46,9 +48,11 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
 
   void _loadPoints() async {
     final points = await ShopStorageService().loadPoints();
+    final items = await ShopStorageService().loadItems();
     if (mounted) {
       setState(() {
         _currentPoints = points;
+        _equippedItems = items.where((i) => i.isEquipped).toList();
       });
     }
   }
@@ -225,19 +229,28 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
         elevation: 0,
         centerTitle: true,
         actions: [
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            margin: const EdgeInsets.symmetric(vertical: 12, horizontal: 4),
-            decoration: BoxDecoration(
-              color: colorScheme.primary.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Row(
-              children: [
-                const Icon(Icons.water_drop, color: Colors.blueAccent, size: 16),
-                const SizedBox(width: 4),
-                Text('$_currentPoints', style: TextStyle(color: colorScheme.primary, fontWeight: FontWeight.bold)),
-              ],
+          GestureDetector(
+            onTap: () async {
+              await Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ShopScreen()),
+              );
+              _loadPoints(); // 상점에서 나오면 상태 및 포인트 갱신
+            },
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              margin: const EdgeInsets.symmetric(vertical: 12, horizontal: 4),
+              decoration: BoxDecoration(
+                color: colorScheme.primary.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Row(
+                children: [
+                  const Icon(Icons.water_drop, color: Colors.blueAccent, size: 16),
+                  const SizedBox(width: 4),
+                  Text('$_currentPoints', style: TextStyle(color: colorScheme.primary, fontWeight: FontWeight.bold)),
+                ],
+              ),
             ),
           ),
           IconButton(
@@ -330,6 +343,7 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
             currentSteps: currentSteps,
             dailyGoal: targetSteps,
             totalLifetimeSteps: lifetimeSteps,
+            equippedItems: _equippedItems,
             onMultiTap: () => _showDebugStepDialog(),
           ),
           SizedBox(height: 30),

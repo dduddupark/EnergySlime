@@ -1,6 +1,8 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:stepflow/l10n/app_localizations.dart';
+import '../../data/models/shop_item.dart';
+import '../shop/shop_item_visual.dart';
 
 enum SlimeState { hungry, active, party }
 
@@ -9,6 +11,7 @@ class SlimeCharacter extends StatefulWidget {
   final int dailyGoal;
   final int totalLifetimeSteps; // For evolution
   final VoidCallback? onMultiTap;
+  final List<ShopItem> equippedItems;
 
   const SlimeCharacter({
     super.key,
@@ -16,6 +19,7 @@ class SlimeCharacter extends StatefulWidget {
     required this.dailyGoal,
     this.totalLifetimeSteps = 0,
     this.onMultiTap,
+    this.equippedItems = const [],
   });
 
   @override
@@ -206,8 +210,14 @@ class _SlimeCharacterState extends State<SlimeCharacter>
                   : _breatheAnimation.value,
               child: Stack(
                 alignment: Alignment.center,
-                clipBehavior: Clip.none,
+                clipBehavior: Clip.none, // 아이템(모자 등)이 넘어갈 수 있게 허용
                 children: [
+                  ...widget.equippedItems.where((i) => i.category == 'bg').map((bg) => 
+                     Positioned(
+                        top: -baseSize * 0.5,
+                        child: ShopItemVisual(itemId: bg.id, size: baseSize * 1.5)
+                     )
+                  ),
                   _buildEvolutionDeco(),
                   AnimatedContainer(
                     duration: const Duration(milliseconds: 500),
@@ -258,6 +268,18 @@ class _SlimeCharacterState extends State<SlimeCharacter>
                         ),
                       ],
                     ),
+                  ),
+                  ...widget.equippedItems.where((i) => i.category == 'face').map((face) => 
+                     Positioned(
+                        top: baseSize * 0.3 * heightFactor,
+                        child: ShopItemVisual(itemId: face.id, size: baseSize * 0.35)
+                     )
+                  ),
+                  ...widget.equippedItems.where((i) => i.category == 'head').map((head) => 
+                     Positioned(
+                        top: -baseSize * 0.3, // 모자 위치
+                        child: ShopItemVisual(itemId: head.id, size: baseSize * 0.6)
+                     )
                   ),
                 ],
               ),
