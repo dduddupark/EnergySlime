@@ -10,6 +10,7 @@ import '../../data/services/fallback_pedometer_service.dart';
 import '../../data/services/foreground_task_handler.dart';
 import 'package:health/health.dart';
 import '../../data/services/fallback_pedometer_service.dart';
+import '../../data/services/shop_storage_service.dart';
 import '../settings/settings_screen.dart';
 import 'package:stepflow/l10n/app_localizations.dart';
 import 'dart:async';
@@ -32,6 +33,7 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
   bool _isFetching = false;
   DateTime? _lastPermissionRequestTime;
   StreamSubscription<int>? _stepSubscription;
+  int _currentPoints = 0;
 
   @override
   void initState() {
@@ -39,6 +41,16 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
     WidgetsBinding.instance.addObserver(this);
     _initForegroundTask();
     _loadData();
+    _loadPoints();
+  }
+
+  void _loadPoints() async {
+    final points = await ShopStorageService().loadPoints();
+    if (mounted) {
+      setState(() {
+        _currentPoints = points;
+      });
+    }
   }
 
   void _initForegroundTask() {
@@ -159,8 +171,13 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
 
              // 스트림 구독 해제/재구독 방지
              _stepSubscription?.cancel();
-             _stepSubscription = _pedometerService.stepStream.listen((steps) {
+             _stepSubscription = _pedometerService.stepStream.listen((steps) async {
                  if (mounted) {
+                     int earned = await ShopStorageService().checkAndEarnPoints(steps);
+                     if (earned > 0) {
+                         _loadPoints(); // 포인트 화면 갱신
+                     }
+
                      setState(() {
                          _todayActivity = ActivityModel(
                              steps: steps,
@@ -208,6 +225,21 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
         elevation: 0,
         centerTitle: true,
         actions: [
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            margin: const EdgeInsets.symmetric(vertical: 12, horizontal: 4),
+            decoration: BoxDecoration(
+              color: colorScheme.primary.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Row(
+              children: [
+                const Icon(Icons.water_drop, color: Colors.blueAccent, size: 16),
+                const SizedBox(width: 4),
+                Text('$_currentPoints', style: TextStyle(color: colorScheme.primary, fontWeight: FontWeight.bold)),
+              ],
+            ),
+          ),
           IconButton(
             icon: const Icon(Icons.settings),
             onPressed: () {
