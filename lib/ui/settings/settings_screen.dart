@@ -28,11 +28,11 @@ class SettingsScreen extends StatelessWidget {
           Card(
             elevation: 0,
             color: Theme.of(context).colorScheme.surface,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24.0)),
             child: Column(
               children: [
                 ListTile(
-                  leading: const Icon(Icons.calendar_month, color: Color(0xFF38BDF8)),
+                  leading: Icon(Icons.calendar_month, color: Theme.of(context).colorScheme.primary),
                   title: Text(AppLocalizations.of(context)!.checkHistory),
                   subtitle: Text(AppLocalizations.of(context)!.historySubtitle),
                   trailing: const Icon(Icons.chevron_right),
@@ -61,7 +61,7 @@ class SettingsScreen extends StatelessWidget {
           Card(
             elevation: 0,
             color: Theme.of(context).colorScheme.surface,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24.0)),
             child: Column(
               children: [
                 ListenableBuilder(
@@ -71,11 +71,11 @@ class SettingsScreen extends StatelessWidget {
                       title: Text(AppLocalizations.of(context)!.darkTheme),
                       subtitle: Text(AppLocalizations.of(context)!.darkThemeSubtitle),
                       value: themeManager.isDarkMode,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24.0)),
                       onChanged: (value) {
                         themeManager.toggleTheme(value);
                       },
-                      activeColor: const Color(0xFF38BDF8),
+                      activeColor: Theme.of(context).colorScheme.primary,
                     );
                   },
                 ),

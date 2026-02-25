@@ -100,7 +100,7 @@ class _ShopScreenState extends State<ShopScreen> {
               margin: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
               decoration: BoxDecoration(
                 color: colorScheme.primary.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(24.0),
               ),
               child: Row(
                 children: [
@@ -133,7 +133,7 @@ class _ShopScreenState extends State<ShopScreen> {
           ),
           Expanded(
             child: GridView.builder(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(20.0),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           crossAxisSpacing: 16,
@@ -145,7 +145,7 @@ class _ShopScreenState extends State<ShopScreen> {
           final item = _items[index];
           return Card(
             elevation: 4,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24.0)),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -194,7 +194,7 @@ class _ShopScreenState extends State<ShopScreen> {
                               ? colorScheme.primary 
                               : Colors.blueAccent,
                       minimumSize: const Size(double.infinity, 36),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24.0)),
                     ),
                     onPressed: () {
                       if (!item.isPurchased) {

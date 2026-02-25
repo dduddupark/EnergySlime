@@ -143,7 +143,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                   Container(
                     decoration: BoxDecoration(
                       color: colorScheme.surface,
-                      borderRadius: BorderRadius.circular(30),
+                      borderRadius: BorderRadius.circular(24.0),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withOpacity(0.05),
@@ -152,7 +152,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                         ),
                       ],
                     ),
-                    padding: const EdgeInsets.all(15),
+                    padding: const EdgeInsets.all(20),
                     child: TableCalendar(
                       locale: localeStr,
                       firstDay: DateTime.utc(2023, 1, 1),

@@ -243,7 +243,7 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
               margin: const EdgeInsets.symmetric(vertical: 12, horizontal: 4),
               decoration: BoxDecoration(
                 color: colorScheme.primary.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(24.0),
               ),
               child: Row(
                 children: [
@@ -277,7 +277,7 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
                   margin: EdgeInsets.only(bottom: 20),
                   decoration: BoxDecoration(
                     color: Colors.orange.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(24.0),
                     border: Border.all(color: Colors.orange),
                   ),
                   child: Row(
@@ -335,7 +335,7 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
       width: double.infinity,
       decoration: BoxDecoration(
         color: colorScheme.surface,
-        borderRadius: BorderRadius.circular(30),
+        borderRadius: BorderRadius.circular(24.0),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.05),
@@ -349,7 +349,7 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
           if (bgItem != null)
             Positioned.fill(
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(30),
+                borderRadius: BorderRadius.circular(24.0),
                 child: Opacity(
                   opacity: 0.3,
                   child: FittedBox(
@@ -360,7 +360,7 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
               ),
             ),
           Padding(
-            padding: EdgeInsets.all(25),
+            padding: const EdgeInsets.all(20),
             child: Column(
               children: [
                 SlimeCharacter(
@@ -505,10 +505,10 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
 
   Widget _buildStatCard(ColorScheme colorScheme, String title, String value, String unit, IconData icon, Color color) {
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: colorScheme.surface,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(24.0),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.05),
