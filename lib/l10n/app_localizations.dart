@@ -253,6 +253,192 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count} Steps'**
   String stepUnit(int count);
+
+  /// No description provided for @purchasedItem.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchased {itemName}!'**
+  String purchasedItem(String itemName);
+
+  /// No description provided for @notEnoughPoints.
+  ///
+  /// In en, this message translates to:
+  /// **'Not enough points! Walk to collect water drops.'**
+  String get notEnoughPoints;
+
+  /// No description provided for @shopTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Shop'**
+  String get shopTitle;
+
+  /// No description provided for @earnPointRule.
+  ///
+  /// In en, this message translates to:
+  /// **'Earn 1 water drop per 100 steps!'**
+  String get earnPointRule;
+
+  /// No description provided for @unequipBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'Unequip'**
+  String get unequipBtn;
+
+  /// No description provided for @equipBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'Equip'**
+  String get equipBtn;
+
+  /// No description provided for @buyBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'Buy'**
+  String get buyBtn;
+
+  /// No description provided for @purchaseHistoryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase History'**
+  String get purchaseHistoryTitle;
+
+  /// No description provided for @noPurchasedItems.
+  ///
+  /// In en, this message translates to:
+  /// **'No purchased items yet.'**
+  String get noPurchasedItems;
+
+  /// No description provided for @categoryBg.
+  ///
+  /// In en, this message translates to:
+  /// **'Background'**
+  String get categoryBg;
+
+  /// No description provided for @categoryFace.
+  ///
+  /// In en, this message translates to:
+  /// **'Face Deco'**
+  String get categoryFace;
+
+  /// No description provided for @categoryHead.
+  ///
+  /// In en, this message translates to:
+  /// **'Hat'**
+  String get categoryHead;
+
+  /// No description provided for @statusEquipped.
+  ///
+  /// In en, this message translates to:
+  /// **'Equipped'**
+  String get statusEquipped;
+
+  /// No description provided for @statusStored.
+  ///
+  /// In en, this message translates to:
+  /// **'Stored'**
+  String get statusStored;
+
+  /// No description provided for @add100Points.
+  ///
+  /// In en, this message translates to:
+  /// **'Add 100 Points'**
+  String get add100Points;
+
+  /// No description provided for @add100PointsSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'💧 Test: 100 points granted! 💧'**
+  String get add100PointsSuccess;
+
+  /// No description provided for @initStepData.
+  ///
+  /// In en, this message translates to:
+  /// **'Initializing step data...'**
+  String get initStepData;
+
+  /// No description provided for @hat_red.
+  ///
+  /// In en, this message translates to:
+  /// **'Red Cap'**
+  String get hat_red;
+
+  /// No description provided for @hat_crown.
+  ///
+  /// In en, this message translates to:
+  /// **'Small Crown'**
+  String get hat_crown;
+
+  /// No description provided for @hat_straw.
+  ///
+  /// In en, this message translates to:
+  /// **'Straw Hat'**
+  String get hat_straw;
+
+  /// No description provided for @hat_wizard.
+  ///
+  /// In en, this message translates to:
+  /// **'Wizard Hat'**
+  String get hat_wizard;
+
+  /// No description provided for @hat_party.
+  ///
+  /// In en, this message translates to:
+  /// **'Party Hat'**
+  String get hat_party;
+
+  /// No description provided for @face_glasses.
+  ///
+  /// In en, this message translates to:
+  /// **'Sunglasses'**
+  String get face_glasses;
+
+  /// No description provided for @face_mustache.
+  ///
+  /// In en, this message translates to:
+  /// **'Mustache'**
+  String get face_mustache;
+
+  /// No description provided for @face_blush.
+  ///
+  /// In en, this message translates to:
+  /// **'Blush'**
+  String get face_blush;
+
+  /// No description provided for @face_mask.
+  ///
+  /// In en, this message translates to:
+  /// **'Mask'**
+  String get face_mask;
+
+  /// No description provided for @bg_forest.
+  ///
+  /// In en, this message translates to:
+  /// **'Forest'**
+  String get bg_forest;
+
+  /// No description provided for @bg_space.
+  ///
+  /// In en, this message translates to:
+  /// **'Space'**
+  String get bg_space;
+
+  /// No description provided for @bg_beach.
+  ///
+  /// In en, this message translates to:
+  /// **'Beach'**
+  String get bg_beach;
+
+  /// No description provided for @bg_city.
+  ///
+  /// In en, this message translates to:
+  /// **'City'**
+  String get bg_city;
+
+  /// No description provided for @bg_snow.
+  ///
+  /// In en, this message translates to:
+  /// **'Snowy Field'**
+  String get bg_snow;
 }
 
 class _AppLocalizationsDelegate

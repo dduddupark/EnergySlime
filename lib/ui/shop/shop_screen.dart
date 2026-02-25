@@ -3,6 +3,8 @@ import '../../data/models/shop_item.dart';
 import '../../data/services/shop_storage_service.dart';
 import 'shop_item_visual.dart';
 import 'purchase_history_screen.dart';
+import '../../l10n/app_localizations.dart';
+import '../../l10n/item_localization.dart';
 
 class ShopScreen extends StatefulWidget {
   @override
@@ -41,11 +43,11 @@ class _ShopScreenState extends State<ShopScreen> {
       await _storageService.saveItems(_items);
       
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('${item.name}을(를) 구매했습니다!')),
+        SnackBar(content: Text(AppLocalizations.of(context)!.purchasedItem(getLocalizedItemName(context, item.id)))),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('포인트가 부족합니다! 걷기를 통해 물방울을 모아보세요.')),
+        SnackBar(content: Text(AppLocalizations.of(context)!.notEnoughPoints)),
       );
     }
   }
@@ -82,7 +84,7 @@ class _ShopScreenState extends State<ShopScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        title: const Text('상점', style: TextStyle(fontWeight: FontWeight.bold)),
+        title: Text(AppLocalizations.of(context)!.shopTitle, style: const TextStyle(fontWeight: FontWeight.bold)),
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         centerTitle: true,
         actions: [
@@ -124,9 +126,9 @@ class _ShopScreenState extends State<ShopScreen> {
               children: [
                 const Icon(Icons.info_outline, size: 16, color: Colors.blueAccent),
                 const SizedBox(width: 8),
-                const Text(
-                  '100 걸음당 1 물방울이 적립됩니다!',
-                  style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blueAccent),
+                Text(
+                  AppLocalizations.of(context)!.earnPointRule,
+                  style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.blueAccent),
                 ),
               ],
             ),
@@ -170,7 +172,7 @@ class _ShopScreenState extends State<ShopScreen> {
                   ),
                 ),
                 Text(
-                  item.name,
+                  getLocalizedItemName(context, item.id),
                   style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 ),
                 const SizedBox(height: 6),
@@ -205,10 +207,10 @@ class _ShopScreenState extends State<ShopScreen> {
                     },
                     child: Text(
                       item.isEquipped 
-                          ? '장착 해제' 
+                          ? AppLocalizations.of(context)!.unequipBtn
                           : item.isPurchased 
-                              ? '착용하기' 
-                              : '구매',
+                              ? AppLocalizations.of(context)!.equipBtn
+                              : AppLocalizations.of(context)!.buyBtn,
                       style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                     ),
                   ),

@@ -96,4 +96,99 @@ class AppLocalizationsKo extends AppLocalizations {
   String stepUnit(int count) {
     return '$count 보';
   }
+
+  @override
+  String purchasedItem(String itemName) {
+    return '$itemName을(를) 구매했습니다!';
+  }
+
+  @override
+  String get notEnoughPoints => '포인트가 부족합니다! 걷기를 통해 물방울을 모아보세요.';
+
+  @override
+  String get shopTitle => '상점';
+
+  @override
+  String get earnPointRule => '100 걸음당 1 물방울이 적립됩니다!';
+
+  @override
+  String get unequipBtn => '장착 해제';
+
+  @override
+  String get equipBtn => '착용하기';
+
+  @override
+  String get buyBtn => '구매';
+
+  @override
+  String get purchaseHistoryTitle => '구매 내역';
+
+  @override
+  String get noPurchasedItems => '아직 구매한 아이템이 없습니다.';
+
+  @override
+  String get categoryBg => '배경';
+
+  @override
+  String get categoryFace => '얼굴 꾸미기';
+
+  @override
+  String get categoryHead => '모자';
+
+  @override
+  String get statusEquipped => '착용 중';
+
+  @override
+  String get statusStored => '보관 중';
+
+  @override
+  String get add100Points => '100 포인트 추가';
+
+  @override
+  String get add100PointsSuccess => '💧 테스트용: 100 포인트 지급 완료! 💧';
+
+  @override
+  String get initStepData => '걸음 수 데이터를 초기화 중입니다...';
+
+  @override
+  String get hat_red => '빨간 캡모자';
+
+  @override
+  String get hat_crown => '작은 왕관';
+
+  @override
+  String get hat_straw => '밀짚모자';
+
+  @override
+  String get hat_wizard => '마법사 모자';
+
+  @override
+  String get hat_party => '파티 모자';
+
+  @override
+  String get face_glasses => '선글라스';
+
+  @override
+  String get face_mustache => '콧수염';
+
+  @override
+  String get face_blush => '발그레';
+
+  @override
+  String get face_mask => '마스크';
+
+  @override
+  String get bg_forest => '숲속 배경';
+
+  @override
+  String get bg_space => '우주 배경';
+
+  @override
+  String get bg_beach => '해변 배경';
+
+  @override
+  String get bg_city => '도시 배경';
+
+  @override
+  String get bg_snow => '눈밭 배경';
 }

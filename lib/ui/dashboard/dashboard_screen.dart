@@ -422,7 +422,7 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
 
                 ListTile(
                   leading: const Icon(Icons.water_drop, color: Colors.blueAccent),
-                  title: const Text('100 포인트 추가', style: TextStyle(color: Colors.blueAccent, fontWeight: FontWeight.bold)),
+                  title: Text(AppLocalizations.of(context)!.add100Points, style: const TextStyle(color: Colors.blueAccent, fontWeight: FontWeight.bold)),
                   onTap: () async {
                     Navigator.pop(context);
                     final currentPoints = await ShopStorageService().loadPoints();
@@ -430,7 +430,7 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
                     _loadPoints();
                     if (mounted) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('💧 테스트용: 100 포인트 지급 완료! 💧')),
+                        SnackBar(content: Text(AppLocalizations.of(context)!.add100PointsSuccess)),
                       );
                     }
                   },

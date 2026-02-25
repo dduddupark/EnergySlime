@@ -54,5 +54,43 @@
     "placeholders": {
       "count": { "type": "int" }
     }
-  }
+  },
+  
+  "purchasedItem": "Purchased {itemName}!",
+  "@purchasedItem": {
+    "placeholders": {
+      "itemName": { "type": "String", "example": "Red Hat" }
+    }
+  },
+  "notEnoughPoints": "Not enough points! Walk to collect water drops.",
+  "shopTitle": "Shop",
+  "earnPointRule": "Earn 1 water drop per 100 steps!",
+  "unequipBtn": "Unequip",
+  "equipBtn": "Equip",
+  "buyBtn": "Buy",
+  "purchaseHistoryTitle": "Purchase History",
+  "noPurchasedItems": "No purchased items yet.",
+  "categoryBg": "Background",
+  "categoryFace": "Face Deco",
+  "categoryHead": "Hat",
+  "statusEquipped": "Equipped",
+  "statusStored": "Stored",
+  "add100Points": "Add 100 Points",
+  "add100PointsSuccess": "💧 Test: 100 points granted! 💧",
+  "initStepData": "Initializing step data...",
+  
+  "hat_red": "Red Cap",
+  "hat_crown": "Small Crown",
+  "hat_straw": "Straw Hat",
+  "hat_wizard": "Wizard Hat",
+  "hat_party": "Party Hat",
+  "face_glasses": "Sunglasses",
+  "face_mustache": "Mustache",
+  "face_blush": "Blush",
+  "face_mask": "Mask",
+  "bg_forest": "Forest",
+  "bg_space": "Space",
+  "bg_beach": "Beach",
+  "bg_city": "City",
+  "bg_snow": "Snowy Field"
 }

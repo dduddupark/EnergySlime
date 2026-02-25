@@ -98,4 +98,100 @@ class AppLocalizationsEn extends AppLocalizations {
   String stepUnit(int count) {
     return '$count Steps';
   }
+
+  @override
+  String purchasedItem(String itemName) {
+    return 'Purchased $itemName!';
+  }
+
+  @override
+  String get notEnoughPoints =>
+      'Not enough points! Walk to collect water drops.';
+
+  @override
+  String get shopTitle => 'Shop';
+
+  @override
+  String get earnPointRule => 'Earn 1 water drop per 100 steps!';
+
+  @override
+  String get unequipBtn => 'Unequip';
+
+  @override
+  String get equipBtn => 'Equip';
+
+  @override
+  String get buyBtn => 'Buy';
+
+  @override
+  String get purchaseHistoryTitle => 'Purchase History';
+
+  @override
+  String get noPurchasedItems => 'No purchased items yet.';
+
+  @override
+  String get categoryBg => 'Background';
+
+  @override
+  String get categoryFace => 'Face Deco';
+
+  @override
+  String get categoryHead => 'Hat';
+
+  @override
+  String get statusEquipped => 'Equipped';
+
+  @override
+  String get statusStored => 'Stored';
+
+  @override
+  String get add100Points => 'Add 100 Points';
+
+  @override
+  String get add100PointsSuccess => '💧 Test: 100 points granted! 💧';
+
+  @override
+  String get initStepData => 'Initializing step data...';
+
+  @override
+  String get hat_red => 'Red Cap';
+
+  @override
+  String get hat_crown => 'Small Crown';
+
+  @override
+  String get hat_straw => 'Straw Hat';
+
+  @override
+  String get hat_wizard => 'Wizard Hat';
+
+  @override
+  String get hat_party => 'Party Hat';
+
+  @override
+  String get face_glasses => 'Sunglasses';
+
+  @override
+  String get face_mustache => 'Mustache';
+
+  @override
+  String get face_blush => 'Blush';
+
+  @override
+  String get face_mask => 'Mask';
+
+  @override
+  String get bg_forest => 'Forest';
+
+  @override
+  String get bg_space => 'Space';
+
+  @override
+  String get bg_beach => 'Beach';
+
+  @override
+  String get bg_city => 'City';
+
+  @override
+  String get bg_snow => 'Snowy Field';
 }
