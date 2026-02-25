@@ -91,10 +91,10 @@ class _HistoryScreenState extends State<HistoryScreen> {
       decoration: BoxDecoration(
         color: const Color(0xFFEBF4F5),
         borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(15),
-          topRight: Radius.circular(15),
-          bottomLeft: Radius.circular(10),
-          bottomRight: Radius.circular(10),
+          topLeft: Radius.elliptical(14, 20),
+          topRight: Radius.elliptical(14, 20),
+          bottomLeft: Radius.circular(12),
+          bottomRight: Radius.circular(12),
         ),
       ),
       child: Stack(

@@ -228,10 +228,10 @@ class _SlimeCharacterState extends State<SlimeCharacter>
                       color: const Color(0xFFEBF4F5),
                       shape: BoxShape.rectangle,
                       borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(baseSize * 0.5),
-                        topRight: Radius.circular(baseSize * 0.5),
-                        bottomLeft: Radius.circular(currentState == SlimeState.hungry ? baseSize * 0.2 : baseSize * 0.4),
-                        bottomRight: Radius.circular(currentState == SlimeState.hungry ? baseSize * 0.2 : baseSize * 0.4),
+                        topLeft: Radius.elliptical(baseSize * 0.45, baseSize * 0.65),
+                        topRight: Radius.elliptical(baseSize * 0.45, baseSize * 0.65),
+                        bottomLeft: Radius.circular(currentState == SlimeState.hungry ? baseSize * 0.2 : baseSize * 0.35),
+                        bottomRight: Radius.circular(currentState == SlimeState.hungry ? baseSize * 0.2 : baseSize * 0.35),
                       ),
                       boxShadow: [
                         BoxShadow(
