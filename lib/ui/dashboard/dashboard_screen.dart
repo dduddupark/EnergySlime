@@ -388,35 +388,59 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
           content: Container(
             width: double.maxFinite,
             constraints: BoxConstraints(maxHeight: 400),
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: 10, // 1000 ~ 10000
-              itemBuilder: (context, index) {
-                int steps = (index + 1) * 1000;
-                return ListTile(
-                  title: Text(AppLocalizations.of(context)!.stepUnit(steps), style: const TextStyle(color: Colors.white70)),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+
+                ListTile(
+                  leading: const Icon(Icons.water_drop, color: Colors.blueAccent),
+                  title: const Text('100 포인트 추가', style: TextStyle(color: Colors.blueAccent, fontWeight: FontWeight.bold)),
                   onTap: () async {
                     Navigator.pop(context);
-                    await _pedometerService.setDebugSteps(steps);
-                    
+                    final currentPoints = await ShopStorageService().loadPoints();
+                    await ShopStorageService().savePoints(currentPoints + 100);
+                    _loadPoints();
                     if (mounted) {
-                      setState(() {
-                         _todayActivity = ActivityModel(
-                             steps: steps,
-                             calories: steps * 0.04, 
-                             activeMinutes: (steps / 100).floor(),
-                             date: DateTime.now(),
-                             timestamp: DateTime.now().millisecondsSinceEpoch,
-                         );
-                      });
-                      
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(AppLocalizations.of(context)!.stepsSetMessage(steps))),
+                        const SnackBar(content: Text('💧 테스트용: 100 포인트 지급 완료! 💧')),
                       );
                     }
                   },
-                );
-              },
+                ),
+                const Divider(color: Colors.white24, height: 1),
+                Expanded(
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: 10, // 1000 ~ 10000
+                    itemBuilder: (context, index) {
+                      int steps = (index + 1) * 1000;
+                      return ListTile(
+                        title: Text(AppLocalizations.of(context)!.stepUnit(steps), style: const TextStyle(color: Colors.white70)),
+                        onTap: () async {
+                          Navigator.pop(context);
+                          await _pedometerService.setDebugSteps(steps);
+                          
+                          if (mounted) {
+                            setState(() {
+                               _todayActivity = ActivityModel(
+                                   steps: steps,
+                                   calories: steps * 0.04, 
+                                   activeMinutes: (steps / 100).floor(),
+                                   date: DateTime.now(),
+                                   timestamp: DateTime.now().millisecondsSinceEpoch,
+                               );
+                            });
+                            
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text(AppLocalizations.of(context)!.stepsSetMessage(steps))),
+                            );
+                          }
+                        },
+                      );
+                    },
+                  ),
+                ),
+              ],
             ),
           ),
         );

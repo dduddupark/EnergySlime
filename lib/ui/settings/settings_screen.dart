@@ -8,7 +8,7 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.settings, style: const TextStyle(fontWeight: FontWeight.bold)),
+        title: Text(AppLocalizations.of(context)!.settingsTitle, style: const TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
       ),
       body: ListView(
@@ -68,7 +68,7 @@ class SettingsScreen extends StatelessWidget {
                   listenable: themeManager,
                   builder: (context, child) {
                     return SwitchListTile(
-                      title: Text(AppLocalizations.of(context)!.darkTheme),
+                      title: Text(AppLocalizations.of(context)!.useDarkTheme),
                       subtitle: Text(AppLocalizations.of(context)!.darkThemeSubtitle),
                       value: themeManager.isDarkMode,
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
