@@ -250,7 +250,7 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
                 children: [
                   const Icon(Icons.water_drop, color: Colors.blueAccent, size: 16),
                   const SizedBox(width: 4),
-                  Text('$_currentPoints', style: TextStyle(color: colorScheme.primary, fontWeight: FontWeight.bold)),
+                  Text('$_currentPoints', style: TextStyle(color: Colors.blue[600], fontWeight: FontWeight.bold)),
                 ],
               ),
             ),

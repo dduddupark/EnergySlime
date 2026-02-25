@@ -40,7 +40,12 @@ class MyApp extends StatelessWidget {
               surface: Colors.white,
               onSurface: Color(0xFF2F4F4F), // 다크 슬레이트 그레이
             ),
-            textTheme: GoogleFonts.nanumGothicTextTheme(ThemeData.light().textTheme).apply(
+            textTheme: GoogleFonts.nanumGothicTextTheme().copyWith(
+              bodyMedium: GoogleFonts.nanumGothic(fontWeight: FontWeight.w500),
+              bodyLarge: GoogleFonts.nanumGothic(fontWeight: FontWeight.w500),
+              titleMedium: GoogleFonts.nanumGothic(fontWeight: FontWeight.w600),
+              titleLarge: GoogleFonts.nanumGothic(fontWeight: FontWeight.bold),
+            ).apply(
               bodyColor: const Color(0xFF2F4F4F),
               displayColor: const Color(0xFF2F4F4F),
             ),
@@ -78,7 +83,12 @@ class MyApp extends StatelessWidget {
               surface: Color(0xFF283437), // 카드 표면 색상
               onSurface: Color(0xFFF5F9F9),
             ),
-            textTheme: GoogleFonts.nanumGothicTextTheme(ThemeData.dark().textTheme).apply(
+            textTheme: GoogleFonts.nanumGothicTextTheme().copyWith(
+              bodyMedium: GoogleFonts.nanumGothic(fontWeight: FontWeight.w500),
+              bodyLarge: GoogleFonts.nanumGothic(fontWeight: FontWeight.w500),
+              titleMedium: GoogleFonts.nanumGothic(fontWeight: FontWeight.w600),
+              titleLarge: GoogleFonts.nanumGothic(fontWeight: FontWeight.bold),
+            ).apply(
               bodyColor: const Color(0xFFF5F9F9),
               displayColor: const Color(0xFFF5F9F9),
             ),

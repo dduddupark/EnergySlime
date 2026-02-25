@@ -100,50 +100,42 @@ class _SlimeCharacterState extends State<SlimeCharacter>
     return SizedBox.shrink();
   }
 
+  Widget _buildEyes({required bool isHungry}) {
+    double size = isHungry ? 10 : 16;
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          width: size,
+          height: size,
+          decoration: const BoxDecoration(color: Color(0xFF2F4F4F), shape: BoxShape.circle),
+        ),
+        const SizedBox(width: 28),
+        Container(
+          width: size,
+          height: size,
+          decoration: const BoxDecoration(color: Color(0xFF2F4F4F), shape: BoxShape.circle),
+        ),
+      ],
+    );
+  }
+
   Widget _buildFace() {
     switch (currentState) {
       case SlimeState.hungry:
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text("x", style: TextStyle(fontSize: 20, color: Colors.black54)),
-            SizedBox(width: 10),
-            Text("x", style: TextStyle(fontSize: 20, color: Colors.black54)),
-          ],
-        );
+        return _buildEyes(isHungry: true);
       case SlimeState.party:
-        return Row(
+        return const Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(Icons.favorite, color: Colors.pinkAccent, size: 24),
-            SizedBox(width: 8),
+            SizedBox(width: 20),
             Icon(Icons.favorite, color: Colors.pinkAccent, size: 24),
           ],
         );
       case SlimeState.active:
       default:
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              width: 8,
-              height: 12,
-              decoration: BoxDecoration(
-                color: Colors.black87,
-                borderRadius: BorderRadius.circular(4),
-              ),
-            ),
-            SizedBox(width: 16),
-            Container(
-              width: 8,
-              height: 12,
-              decoration: BoxDecoration(
-                color: Colors.black87,
-                borderRadius: BorderRadius.circular(4),
-              ),
-            ),
-          ],
-        );
+        return _buildEyes(isHungry: false);
     }
   }
 
@@ -233,7 +225,7 @@ class _SlimeCharacterState extends State<SlimeCharacter>
                     height: baseSize * heightFactor,
                     clipBehavior: Clip.antiAlias,
                     decoration: BoxDecoration(
-                      color: Colors.grey[400],
+                      color: const Color(0xFFEBF4F5),
                       shape: BoxShape.rectangle,
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(baseSize * 0.5),
@@ -260,7 +252,7 @@ class _SlimeCharacterState extends State<SlimeCharacter>
                                 progress: progress,
                               ),
                               child: Container(
-                                color: const Color(0xFF38BDF8),
+                                color: const Color(0xFFA7D8DE),
                                 width: double.infinity,
                                 height: double.infinity,
                               ),

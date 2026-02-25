@@ -106,7 +106,7 @@ class _ShopScreenState extends State<ShopScreen> {
                 children: [
                   const Icon(Icons.water_drop, color: Colors.blueAccent, size: 16),
                   const SizedBox(width: 4),
-                  Text('$_points', style: TextStyle(color: colorScheme.primary, fontWeight: FontWeight.bold)),
+                  Text('$_points', style: TextStyle(color: Colors.blue[600], fontWeight: FontWeight.bold)),
                 ],
               ),
             ),
