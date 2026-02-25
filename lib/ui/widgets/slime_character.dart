@@ -158,9 +158,9 @@ class _SlimeCharacterState extends State<SlimeCharacter>
     // Flatten if hungry
     double heightFactor = currentState == SlimeState.hungry ? 0.7 : 1.0;
 
-    return Column(
+    Widget speechBubble = Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
-        // Speech Bubble
         Container(
           padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           decoration: BoxDecoration(
@@ -191,9 +191,22 @@ class _SlimeCharacterState extends State<SlimeCharacter>
             width: 20,
           ),
         ),
-        SizedBox(height: 10),
-        // Animated Slime
-        GestureDetector(
+      ],
+    );
+
+    return Stack(
+      alignment: Alignment.topCenter,
+      clipBehavior: Clip.none,
+      children: [
+        Column(
+          children: [
+            Opacity(
+              opacity: 0,
+              child: speechBubble,
+            ),
+            SizedBox(height: 10),
+            // Animated Slime
+            GestureDetector(
           onTap: () {
             _tapCount++;
             if (_tapCount >= 5) {
@@ -212,12 +225,6 @@ class _SlimeCharacterState extends State<SlimeCharacter>
                 alignment: Alignment.center,
                 clipBehavior: Clip.none, // 아이템(모자 등)이 넘어갈 수 있게 허용
                 children: [
-                  ...widget.equippedItems.where((i) => i.category == 'bg').map((bg) => 
-                     Positioned(
-                        top: -baseSize * 0.5,
-                        child: ShopItemVisual(itemId: bg.id, size: baseSize * 1.5)
-                     )
-                  ),
                   _buildEvolutionDeco(),
                   AnimatedContainer(
                     duration: const Duration(milliseconds: 500),
@@ -270,9 +277,11 @@ class _SlimeCharacterState extends State<SlimeCharacter>
                     ),
                   ),
                   ...widget.equippedItems.where((i) => i.category == 'face').map((face) => 
-                     Positioned(
-                        top: baseSize * 0.3 * heightFactor,
-                        child: ShopItemVisual(itemId: face.id, size: baseSize * 0.35)
+                     Center(
+                       child: Padding(
+                         padding: EdgeInsets.only(top: baseSize * 0.1),
+                         child: ShopItemVisual(itemId: face.id, size: baseSize * 0.5)
+                       )
                      )
                   ),
                   ...widget.equippedItems.where((i) => i.category == 'head').map((head) => 
@@ -286,6 +295,12 @@ class _SlimeCharacterState extends State<SlimeCharacter>
             );
           },
         ),
+        ),
+          ],
+        ),
+        Positioned(
+          top: 0,
+          child: speechBubble,
         ),
       ],
     );

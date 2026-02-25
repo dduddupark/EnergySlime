@@ -19,9 +19,271 @@ class ShopItemVisual extends StatelessWidget {
         return _buildForestBg();
       case 'bg_space':
         return _buildSpaceBg();
+      case 'hat_straw':
+        return _buildStrawHat();
+      case 'hat_wizard':
+        return _buildWizardHat();
+      case 'hat_party':
+        return _buildPartyHat();
+      case 'face_mustache':
+        return _buildMustache();
+      case 'face_blush':
+        return _buildBlush();
+      case 'face_mask':
+        return _buildMask();
+      case 'bg_beach':
+        return _buildBeachBg();
+      case 'bg_city':
+        return _buildCityBg();
+      case 'bg_snow':
+        return _buildSnowBg();
       default:
         return Icon(Icons.star, size: size, color: Colors.amber);
     }
+  }
+
+  Widget _buildStrawHat() {
+    return SizedBox(
+      width: size,
+      height: size * 0.8,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Positioned(
+            top: size * 0.3,
+            child: Container(
+              width: size,
+              height: size * 0.2,
+              decoration: BoxDecoration(
+                color: Colors.amber[300],
+                borderRadius: BorderRadius.circular(size),
+              ),
+            ),
+          ),
+          Positioned(
+            top: 0,
+            child: Container(
+              width: size * 0.5,
+              height: size * 0.4,
+              decoration: BoxDecoration(
+                color: Colors.amber[200],
+                borderRadius: BorderRadius.vertical(top: Radius.circular(size * 0.25)),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildWizardHat() {
+    return SizedBox(
+      width: size,
+      height: size,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Positioned(
+            bottom: size * 0.1,
+            child: Container(
+              width: size,
+              height: size * 0.2,
+              decoration: BoxDecoration(
+                color: Colors.deepPurple,
+                borderRadius: BorderRadius.circular(size),
+              ),
+            ),
+          ),
+          Positioned(
+            bottom: size * 0.15,
+            child: ClipPath(
+              clipper: ConeClipper(),
+              child: Container(
+                width: size * 0.7,
+                height: size * 0.8,
+                color: Colors.deepPurple[400],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPartyHat() {
+    return SizedBox(
+      width: size,
+      height: size,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Positioned(
+            bottom: size * 0.1,
+            child: ClipPath(
+              clipper: ConeClipper(),
+              child: Container(
+                width: size * 0.6,
+                height: size * 0.7,
+                color: Colors.pinkAccent,
+              ),
+            ),
+          ),
+          Positioned(
+            top: size * 0.1,
+            child: Icon(Icons.star, color: Colors.yellow, size: size * 0.3),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _buildMustache() {
+    return SizedBox(
+      width: size * 0.8,
+      height: size * 0.4,
+      child: Center(
+        child: Container(
+          width: size * 0.6,
+          height: size * 0.15,
+          decoration: BoxDecoration(
+            color: Colors.brown[800],
+            borderRadius: BorderRadius.vertical(top: Radius.circular(size), bottom: Radius.circular(size * 0.2)),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBlush() {
+    return SizedBox(
+      width: size * 1.4,
+      height: size * 0.5,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Container(
+            width: size * 0.35,
+            height: size * 0.25,
+            decoration: BoxDecoration(
+              color: Colors.pinkAccent.withOpacity(0.5),
+              shape: BoxShape.circle,
+            ),
+          ),
+          Container(
+            width: size * 0.35,
+            height: size * 0.25,
+            decoration: BoxDecoration(
+              color: Colors.pinkAccent.withOpacity(0.5),
+              shape: BoxShape.circle,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildMask() {
+    return SizedBox(
+      width: size * 0.7,
+      height: size * 0.4,
+      child: Center(
+        child: Container(
+          width: size * 0.5,
+          height: size * 0.25,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(4),
+            border: Border.all(color: Colors.grey[300]!, width: 1),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBeachBg() {
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Colors.lightBlue[200]!, Colors.yellow[100]!],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+        ),
+        borderRadius: BorderRadius.circular(size * 0.1),
+      ),
+      child: Stack(
+        children: [
+          Positioned(
+            bottom: size * 0.1, left: size * 0.1,
+            child: Icon(Icons.beach_access, size: size * 0.5, color: Colors.orange),
+          ),
+          Positioned(
+            top: size * 0.1, right: size * 0.1,
+            child: Icon(Icons.wb_sunny, size: size * 0.3, color: Colors.yellow[700]),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCityBg() {
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Color(0xFF3B4058), Color(0xFF1E2135)],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+        ),
+        borderRadius: BorderRadius.circular(size * 0.1),
+      ),
+      child: Stack(
+        children: [
+          Positioned(
+            bottom: 0, left: size * 0.1,
+            child: Icon(Icons.location_city, size: size * 0.5, color: Colors.indigo[300]),
+          ),
+          Positioned(
+            bottom: 0, right: size * 0.1,
+            child: Icon(Icons.location_city, size: size * 0.6, color: Colors.indigo[400]),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSnowBg() {
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Colors.blueGrey[100]!, Colors.white],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+        ),
+        borderRadius: BorderRadius.circular(size * 0.1),
+      ),
+      child: Stack(
+        children: [
+          Positioned(
+            bottom: 0, left: size * 0.1,
+            child: Icon(Icons.ac_unit, size: size * 0.3, color: Colors.lightBlue[200]),
+          ),
+          Positioned(
+            bottom: size * 0.2, right: size * 0.2,
+            child: Icon(Icons.ac_unit, size: size * 0.4, color: Colors.lightBlue[100]),
+          ),
+          Positioned(
+            top: size * 0.1, left: size * 0.4,
+            child: Icon(Icons.ac_unit, size: size * 0.25, color: Colors.blue[200]),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _buildRedHat() {
@@ -76,33 +338,33 @@ class ShopItemVisual extends StatelessWidget {
 
   Widget _buildGlasses() {
     return SizedBox(
-      width: size * 1.2,
-      height: size * 0.4,
+      width: size * 1.4,
+      height: size * 0.5,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           // 왼쪽 알
           Container(
-            width: size * 0.45,
-            height: size * 0.35,
+            width: size * 0.55,
+            height: size * 0.45,
             decoration: BoxDecoration(
               color: Colors.black87,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(10),
             ),
           ),
           // 안경 코받침 연결부
           Container(
-            width: size * 0.15,
-            height: size * 0.05,
+            width: size * 0.18,
+            height: size * 0.06,
             color: Colors.black87,
           ),
           // 오른쪽 알
           Container(
-            width: size * 0.45,
-            height: size * 0.35,
+            width: size * 0.55,
+            height: size * 0.45,
             decoration: BoxDecoration(
               color: Colors.black87,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(10),
             ),
           ),
         ],
@@ -195,4 +457,19 @@ class CrownPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+}
+
+class ConeClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    Path path = Path();
+    path.moveTo(size.width * 0.5, 0); // Top center
+    path.lineTo(size.width, size.height); // Bottom right
+    path.lineTo(0, size.height); // Bottom left
+    path.close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }

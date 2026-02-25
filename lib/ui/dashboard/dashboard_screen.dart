@@ -14,6 +14,7 @@ import '../../data/models/shop_item.dart';
 import '../settings/settings_screen.dart';
 import '../shop/shop_screen.dart';
 import 'package:stepflow/l10n/app_localizations.dart';
+import '../shop/shop_item_visual.dart';
 import 'dart:async';
 
 // Fixed incorrect extension usage
@@ -323,9 +324,15 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
     // In a real app, this would come from a user stats provider
     int lifetimeSteps = currentSteps; // TODO: Replace with actual lifetime steps
 
+    ShopItem? bgItem;
+    try {
+      bgItem = _equippedItems.firstWhere((i) => i.category == 'bg');
+    } catch (e) {
+      bgItem = null;
+    }
+
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.all(25),
       decoration: BoxDecoration(
         color: colorScheme.surface,
         borderRadius: BorderRadius.circular(30),
@@ -337,41 +344,61 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
           ),
         ],
       ),
-      child: Column(
+      child: Stack(
         children: [
-          SlimeCharacter(
-            currentSteps: currentSteps,
-            dailyGoal: targetSteps,
-            totalLifetimeSteps: lifetimeSteps,
-            equippedItems: _equippedItems,
-            onMultiTap: () => _showDebugStepDialog(),
-          ),
-          SizedBox(height: 30),
-          // Step Counter Text below the character
-          Column(
-            children: [
-              Text(
-                NumberFormat('#,###').format(currentSteps),
-                style: TextStyle(
-                  color: colorScheme.onSurface,
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
+          if (bgItem != null)
+            Positioned.fill(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(30),
+                child: Opacity(
+                  opacity: 0.3,
+                  child: FittedBox(
+                    fit: BoxFit.cover,
+                    child: ShopItemVisual(itemId: bgItem.id, size: 300),
+                  ),
                 ),
               ),
-              Text(
-                '/ ${NumberFormat('#,###').format(targetSteps)} ${AppLocalizations.of(context)!.stepsUnit}',
-                style: TextStyle(color: colorScheme.onSurface.withOpacity(0.6)),
-              ),
-            ],
-          ),
-          SizedBox(height: 10),
-          // Minimal progress bar
-          LinearProgressIndicator(
-            value: (currentSteps / targetSteps).clamp(0.0, 1.0),
-            backgroundColor: colorScheme.onSurface.withOpacity(0.1),
-            color: colorScheme.primary,
-            borderRadius: BorderRadius.circular(10),
-            minHeight: 8,
+            ),
+          Padding(
+            padding: EdgeInsets.all(25),
+            child: Column(
+              children: [
+                SlimeCharacter(
+                  currentSteps: currentSteps,
+                  dailyGoal: targetSteps,
+                  totalLifetimeSteps: lifetimeSteps,
+                  equippedItems: _equippedItems,
+                  onMultiTap: () => _showDebugStepDialog(),
+                ),
+                SizedBox(height: 30),
+                // Step Counter Text below the character
+                Column(
+                  children: [
+                    Text(
+                      NumberFormat('#,###').format(currentSteps),
+                      style: TextStyle(
+                        color: colorScheme.onSurface,
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      '/ ${NumberFormat('#,###').format(targetSteps)} ${AppLocalizations.of(context)!.stepsUnit}',
+                      style: TextStyle(color: colorScheme.onSurface.withOpacity(0.6)),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 10),
+                // Minimal progress bar
+                LinearProgressIndicator(
+                  value: (currentSteps / targetSteps).clamp(0.0, 1.0),
+                  backgroundColor: colorScheme.onSurface.withOpacity(0.1),
+                  color: colorScheme.primary,
+                  borderRadius: BorderRadius.circular(10),
+                  minHeight: 8,
+                ),
+              ],
+            ),
           ),
         ],
       ),

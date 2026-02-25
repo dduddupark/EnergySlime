@@ -51,9 +51,9 @@ class _HistoryScreenState extends State<HistoryScreen> {
       setState(() {
         // -- 목업 데이터 삽입 (1월 1일 ~ 2월 23일까지 1~10000 랜덤) --
         final random = Random();
-        final year = DateTime.now().year;
+        final year = now.year;
         DateTime fakeDate = DateTime(year, 1, 1);
-        final endDate = DateTime(year, 2, 23);
+        final endDate = DateTime(year, now.month, now.day).subtract(const Duration(days: 1));
         
         while (!fakeDate.isAfter(endDate)) {
           if (!_stepsByDay.containsKey(fakeDate)) {

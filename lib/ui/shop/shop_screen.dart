@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../data/models/shop_item.dart';
 import '../../data/services/shop_storage_service.dart';
 import 'shop_item_visual.dart';
+import 'purchase_history_screen.dart';
 
 class ShopScreen extends StatefulWidget {
   @override
@@ -51,14 +52,19 @@ class _ShopScreenState extends State<ShopScreen> {
 
   Future<void> _equipItem(ShopItem item) async {
     setState(() {
-      // 같은 카테고리의 기존 장착 해제
-      for (var obj in _items) {
-        if (obj.category == item.category) {
-          obj.isEquipped = false;
+      if (item.isEquipped) {
+        // 이미 장착 중이면 해제
+        item.isEquipped = false;
+      } else {
+        // 같은 카테고리의 기존 장착 해제
+        for (var obj in _items) {
+          if (obj.category == item.category) {
+            obj.isEquipped = false;
+          }
         }
+        // 새 아이템 장착
+        item.isEquipped = true;
       }
-      // 새 아이템 장착
-      item.isEquipped = true;
     });
     await _storageService.saveItems(_items);
   }
@@ -80,24 +86,53 @@ class _ShopScreenState extends State<ShopScreen> {
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         centerTitle: true,
         actions: [
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            margin: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-            decoration: BoxDecoration(
-              color: colorScheme.primary.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Row(
-              children: [
-                const Icon(Icons.water_drop, color: Colors.blueAccent, size: 16),
-                const SizedBox(width: 4),
-                Text('$_points', style: TextStyle(color: colorScheme.primary, fontWeight: FontWeight.bold)),
-              ],
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => PurchaseHistoryScreen()),
+              ).then((_) {
+                _loadShopData(); // Refresh after coming back (un-equipping something in history could affect shop, although history might not have buttons, good practice)
+              });
+            },
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              margin: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+              decoration: BoxDecoration(
+                color: colorScheme.primary.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Row(
+                children: [
+                  const Icon(Icons.water_drop, color: Colors.blueAccent, size: 16),
+                  const SizedBox(width: 4),
+                  Text('$_points', style: TextStyle(color: colorScheme.primary, fontWeight: FontWeight.bold)),
+                ],
+              ),
             ),
           ),
         ],
       ),
-      body: GridView.builder(
+      body: Column(
+        children: [
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+            color: colorScheme.primary.withOpacity(0.05),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.info_outline, size: 16, color: Colors.blueAccent),
+                const SizedBox(width: 8),
+                const Text(
+                  '100 걸음당 1 물방울이 적립됩니다!',
+                  style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blueAccent),
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: GridView.builder(
         padding: const EdgeInsets.all(16.0),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
@@ -118,11 +153,17 @@ class _ShopScreenState extends State<ShopScreen> {
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Center(
-                      child: Opacity(
-                        opacity: item.isPurchased ? 1.0 : 0.4,
-                        child: ShopItemVisual(
-                          itemId: item.id,
-                          size: 70,
+                      child: AspectRatio(
+                        aspectRatio: 1.0,
+                        child: FittedBox(
+                          fit: BoxFit.contain,
+                          child: Opacity(
+                            opacity: item.isPurchased ? 1.0 : 0.4,
+                            child: ShopItemVisual(
+                              itemId: item.id,
+                              size: 100,
+                            ),
+                          ),
                         ),
                       ),
                     ),
@@ -133,19 +174,22 @@ class _ShopScreenState extends State<ShopScreen> {
                   style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 ),
                 const SizedBox(height: 6),
-                if (!item.isPurchased)
-                  Text(
+                Opacity(
+                  opacity: item.isPurchased ? 0.3 : 1.0,
+                  child: Text(
                     '${item.price} 💧',
-                    style: TextStyle(color: Colors.blue[600], fontWeight: FontWeight.bold),
-                  )
-                else
-                  const SizedBox(height: 18),
+                    style: TextStyle(
+                      color: Colors.blue[600],
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 16.0),
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: item.isEquipped 
-                          ? Colors.grey 
+                          ? Colors.redAccent 
                           : item.isPurchased 
                               ? colorScheme.primary 
                               : Colors.blueAccent,
@@ -155,13 +199,13 @@ class _ShopScreenState extends State<ShopScreen> {
                     onPressed: () {
                       if (!item.isPurchased) {
                         _buyItem(item);
-                      } else if (!item.isEquipped) {
+                      } else {
                         _equipItem(item);
                       }
                     },
                     child: Text(
                       item.isEquipped 
-                          ? '착용 중' 
+                          ? '장착 해제' 
                           : item.isPurchased 
                               ? '착용하기' 
                               : '구매',
@@ -173,6 +217,9 @@ class _ShopScreenState extends State<ShopScreen> {
             ),
           );
         },
+      ),
+          ),
+        ],
       ),
     );
   }
