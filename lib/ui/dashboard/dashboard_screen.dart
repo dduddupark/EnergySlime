@@ -477,29 +477,28 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
   }
 
   Widget _buildStatGrid(ColorScheme colorScheme) {
-    return GridView.count(
-      shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
-      crossAxisCount: 2,
-      crossAxisSpacing: 15,
-      mainAxisSpacing: 15,
-      childAspectRatio: 1.5,
+    return Row(
       children: [
-        _buildStatCard(
-          colorScheme,
-          AppLocalizations.of(context)!.calories,
-          '${_todayActivity?.calories.toInt() ?? 0}',
-          'kcal',
-          Icons.local_fire_department,
-          Colors.orangeAccent,
+        Expanded(
+          child: _buildStatCard(
+            colorScheme,
+            AppLocalizations.of(context)!.calories,
+            '${_todayActivity?.calories.toInt() ?? 0}',
+            'kcal',
+            Icons.local_fire_department,
+            Colors.orangeAccent,
+          ),
         ),
-        _buildStatCard(
-          colorScheme,
-          AppLocalizations.of(context)!.activeTime,
-          '${_todayActivity?.activeMinutes ?? 0}',
-          'min',
-          Icons.timer,
-          Colors.greenAccent,
+        const SizedBox(width: 15),
+        Expanded(
+          child: _buildStatCard(
+            colorScheme,
+            AppLocalizations.of(context)!.activeTime,
+            '${_todayActivity?.activeMinutes ?? 0}',
+            'min',
+            Icons.timer,
+            Colors.greenAccent,
+          ),
         ),
       ],
     );
