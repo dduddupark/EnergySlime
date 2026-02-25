@@ -101,7 +101,7 @@ class _SlimeCharacterState extends State<SlimeCharacter>
   }
 
   Widget _buildEyes({required bool isHungry}) {
-    double size = isHungry ? 10 : 16;
+    double size = isHungry ? 5 : 8;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -110,7 +110,7 @@ class _SlimeCharacterState extends State<SlimeCharacter>
           height: size,
           decoration: const BoxDecoration(color: Color(0xFF2F4F4F), shape: BoxShape.circle),
         ),
-        const SizedBox(width: 28),
+        const SizedBox(width: 14),
         Container(
           width: size,
           height: size,

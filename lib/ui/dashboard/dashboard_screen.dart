@@ -483,6 +483,7 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
       crossAxisCount: 2,
       crossAxisSpacing: 15,
       mainAxisSpacing: 15,
+      childAspectRatio: 1.5,
       children: [
         _buildStatCard(
           colorScheme,

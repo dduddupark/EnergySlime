@@ -39,7 +39,7 @@ class _SplashScreenState extends State<SplashScreen> {
             ),
             const SizedBox(height: 20),
             Text(
-              'Energy Pet',
+              'Energy Slime',
               style: GoogleFonts.nanumGothic(
                 fontSize: 32,
                 fontWeight: FontWeight.w900,

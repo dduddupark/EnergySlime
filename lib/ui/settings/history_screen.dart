@@ -89,7 +89,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
       height: 30,
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
-        color: Colors.grey[400],
+        color: const Color(0xFFEBF4F5),
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(15),
           topRight: Radius.circular(15),
@@ -103,7 +103,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
           FractionallySizedBox(
             heightFactor: progress,
             child: Container(
-              color: const Color(0xFF38BDF8),
+              color: const Color(0xFFA7D8DE),
               width: double.infinity,
             ),
           ),
