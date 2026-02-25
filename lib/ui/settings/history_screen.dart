@@ -5,7 +5,6 @@ import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:stepflow/l10n/app_localizations.dart';
 import '../../data/services/fallback_pedometer_service.dart';
-import 'dart:math';
 
 class HistoryScreen extends StatefulWidget {
   @override
@@ -49,19 +48,6 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
     if (mounted) {
       setState(() {
-        // -- 목업 데이터 삽입 (1월 1일 ~ 2월 23일까지 1~10000 랜덤) --
-        final random = Random();
-        final year = now.year;
-        DateTime fakeDate = DateTime(year, 1, 1);
-        final endDate = DateTime(year, now.month, now.day).subtract(const Duration(days: 1));
-        
-        while (!fakeDate.isAfter(endDate)) {
-          if (!_stepsByDay.containsKey(fakeDate)) {
-             _stepsByDay[fakeDate] = random.nextInt(10000) + 1; // 1 ~ 10000 보
-          }
-          fakeDate = fakeDate.add(const Duration(days: 1));
-        }
-
         _isLoading = false;
       });
       

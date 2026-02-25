@@ -15,6 +15,7 @@ import '../settings/settings_screen.dart';
 import '../shop/shop_screen.dart';
 import 'package:stepflow/l10n/app_localizations.dart';
 import '../shop/shop_item_visual.dart';
+import 'detail_screen.dart';
 import 'dart:async';
 
 // Fixed incorrect extension usage
@@ -502,6 +503,7 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
             'kcal',
             Icons.local_fire_department,
             Colors.orangeAccent,
+            'calories',
           ),
         ),
         const SizedBox(width: 15),
@@ -513,65 +515,81 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
             'min',
             Icons.timer,
             Colors.greenAccent,
+            'active_time',
           ),
         ),
       ],
     );
   }
 
-  Widget _buildStatCard(ColorScheme colorScheme, String title, String value, String unit, IconData icon, Color color) {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: colorScheme.surface,
-        borderRadius: BorderRadius.circular(28.0),
-        boxShadow: [
-          BoxShadow(
-            color: colorScheme.primary.withOpacity(0.05),
-            blurRadius: 10,
-            offset: Offset(0, 5),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: const Color(0xFFF9E076).withOpacity(0.3), // Light Lemon
-              shape: BoxShape.circle,
+  Widget _buildStatCard(ColorScheme colorScheme, String title, String value, String unit, IconData icon, Color color, String type) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DetailScreen(
+              title: title,
+              type: type,
+              primaryColor: colorScheme.primary,
+              currentValue: value,
             ),
-            child: Icon(icon, color: color, size: 30),
           ),
-          SizedBox(height: 15),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              FittedBox(
-                fit: BoxFit.scaleDown,
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  value,
-                  style: TextStyle(
-                    color: colorScheme.onSurface,
-                    fontSize: 24,
-                    fontWeight: FontWeight.w900,
+        );
+      },
+      child: Container(
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: colorScheme.surface,
+          borderRadius: BorderRadius.circular(28.0),
+          boxShadow: [
+            BoxShadow(
+              color: colorScheme.primary.withOpacity(0.05),
+              blurRadius: 10,
+              offset: const Offset(0, 5),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: const Color(0xFFF9E076).withOpacity(0.3), // Light Lemon
+                shape: BoxShape.circle,
+              ),
+              child: Icon(icon, color: color, size: 30),
+            ),
+            const SizedBox(height: 15),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    value,
+                    style: TextStyle(
+                      color: colorScheme.onSurface,
+                      fontSize: 24,
+                      fontWeight: FontWeight.w900,
+                    ),
                   ),
                 ),
-              ),
-              FittedBox(
-                fit: BoxFit.scaleDown,
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  '$title ($unit)',
-                  style: TextStyle(color: colorScheme.onSurface.withOpacity(0.6), fontSize: 12),
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    '$title ($unit)',
+                    style: TextStyle(color: colorScheme.onSurface.withOpacity(0.6), fontSize: 12),
+                  ),
                 ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
