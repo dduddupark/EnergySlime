@@ -4,6 +4,7 @@ import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'core/theme/theme_manager.dart';
 import 'package:stepflow/l10n/app_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'ui/splash/splash_screen.dart';
 
 void main() {
   FlutterForegroundTask.initCommunicationPort();
@@ -110,7 +111,7 @@ class MyApp extends StatelessWidget {
               ),
             ),
           ),
-          home: const WithForegroundTask(child: DashboardScreenWrapper()),
+          home: const SplashScreen(),
         );
       },
     );
@@ -119,6 +120,15 @@ class MyApp extends StatelessWidget {
 
 class DashboardScreenWrapper extends StatelessWidget {
   const DashboardScreenWrapper({super.key});
+  
+  @override
+  Widget build(BuildContext context) {
+    return const WithForegroundTask(child: DashboardScreenWrapperInner());
+  }
+}
+
+class DashboardScreenWrapperInner extends StatelessWidget {
+  const DashboardScreenWrapperInner({super.key});
   
   @override
   Widget build(BuildContext context) {
