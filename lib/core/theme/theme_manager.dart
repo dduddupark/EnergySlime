@@ -4,9 +4,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 class ThemeManager extends ChangeNotifier {
   static const String _themePrefKey = 'theme_preference';
   
-  // Use light theme as default? Or dark theme as default?
-  // Let's use dark theme as default since the app is dark themed currently.
-  ThemeMode _themeMode = ThemeMode.dark;
+  // Use light theme as default.
+  ThemeMode _themeMode = ThemeMode.light;
 
   ThemeMode get themeMode => _themeMode;
 
@@ -25,10 +24,10 @@ class ThemeManager extends ChangeNotifier {
   Future<void> _loadTheme() async {
     final prefs = await SharedPreferences.getInstance();
     final String? themeStr = prefs.getString(_themePrefKey);
-    if (themeStr == 'light') {
-      _themeMode = ThemeMode.light;
-    } else {
+    if (themeStr == 'dark') {
       _themeMode = ThemeMode.dark;
+    } else {
+      _themeMode = ThemeMode.light;
     }
     notifyListeners();
   }
