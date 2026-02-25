@@ -101,20 +101,20 @@ class _SlimeCharacterState extends State<SlimeCharacter>
   }
 
   Widget _buildEyes({required bool isHungry}) {
-    double size = isHungry ? 5 : 8;
+    double size = isHungry ? 6 : 9;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
           width: size,
           height: size,
-          decoration: const BoxDecoration(color: Color(0xFF2F4F4F), shape: BoxShape.circle),
+          decoration: const BoxDecoration(color: Color(0xFF2E2E2E), shape: BoxShape.circle),
         ),
-        const SizedBox(width: 14),
+        const SizedBox(width: 25),
         Container(
           width: size,
           height: size,
-          decoration: const BoxDecoration(color: Color(0xFF2F4F4F), shape: BoxShape.circle),
+          decoration: const BoxDecoration(color: Color(0xFF2E2E2E), shape: BoxShape.circle),
         ),
       ],
     );
@@ -128,9 +128,9 @@ class _SlimeCharacterState extends State<SlimeCharacter>
         return const Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.favorite, color: Colors.pinkAccent, size: 24),
-            SizedBox(width: 20),
-            Icon(Icons.favorite, color: Colors.pinkAccent, size: 24),
+            Icon(Icons.favorite, color: Colors.pinkAccent, size: 28),
+            SizedBox(width: 25),
+            Icon(Icons.favorite, color: Colors.pinkAccent, size: 28),
           ],
         );
       case SlimeState.active:
@@ -146,9 +146,6 @@ class _SlimeCharacterState extends State<SlimeCharacter>
         : evolutionLevel == 2
             ? 130.0
             : 160.0;
-            
-    // Flatten if hungry
-    double heightFactor = currentState == SlimeState.hungry ? 0.7 : 1.0;
 
     Widget speechBubble = Column(
       mainAxisSize: MainAxisSize.min,
@@ -218,54 +215,87 @@ class _SlimeCharacterState extends State<SlimeCharacter>
                 clipBehavior: Clip.none, // 아이템(모자 등)이 넘어갈 수 있게 허용
                 children: [
                   _buildEvolutionDeco(),
-                  AnimatedContainer(
-                    duration: const Duration(milliseconds: 500),
-                    curve: Curves.easeInOut,
-                    width: baseSize,
-                    height: baseSize * heightFactor,
-                    clipBehavior: Clip.antiAlias,
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFEBF4F5),
-                      shape: BoxShape.rectangle,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.elliptical(baseSize * 0.45, baseSize * 0.65),
-                        topRight: Radius.elliptical(baseSize * 0.45, baseSize * 0.65),
-                        bottomLeft: Radius.circular(currentState == SlimeState.hungry ? baseSize * 0.2 : baseSize * 0.35),
-                        bottomRight: Radius.circular(currentState == SlimeState.hungry ? baseSize * 0.2 : baseSize * 0.35),
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: slimeColor.withOpacity(0.4),
-                          blurRadius: 20,
-                          spreadRadius: 2,
-                        ),
-                      ],
-                    ),
-                    child: Stack(
-                      children: [
-                        AnimatedBuilder(
-                          animation: _waveController,
-                          builder: (context, child) {
-                            return ClipPath(
-                              clipper: WaveClipper(
-                                animationValue: _waveController.value,
-                                progress: progress,
-                              ),
-                              child: Container(
-                                color: const Color(0xFFA7D8DE),
-                                width: double.infinity,
-                                height: double.infinity,
-                              ),
-                            );
-                          },
-                        ),
-                        Center(
-                          child: Padding(
-                            padding: EdgeInsets.only(top: baseSize * 0.1),
-                            child: _buildFace(),
+                  CustomPaint(
+                    painter: SlimeShadowPainter(shadowColor: slimeColor.withValues(alpha: 0.4)),
+                    child: ClipPath(
+                      clipper: SlimeClipper(),
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 500),
+                        curve: Curves.easeInOut,
+                        width: baseSize,
+                        height: baseSize,
+                        decoration: const BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Color(0xFFFFFFFF),
+                              Color(0xFFEBF4F5),
+                              Color(0xFFD4E8EA),
+                            ],
+                            stops: [0.0, 0.4, 1.0],
                           ),
                         ),
-                      ],
+                        child: Stack(
+                          children: [
+                            AnimatedBuilder(
+                              animation: _waveController,
+                              builder: (context, child) {
+                                final hsl = HSLColor.fromColor(slimeColor);
+                                final darkerSlimeColor = hsl
+                                    .withLightness((hsl.lightness - 0.1).clamp(0.0, 1.0))
+                                    .toColor();
+                                return ClipPath(
+                                  clipper: WaveClipper(
+                                    animationValue: _waveController.value,
+                                    progress: progress,
+                                  ),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter,
+                                        colors: [
+                                          slimeColor.withValues(alpha: 0.8),
+                                          slimeColor,
+                                          darkerSlimeColor,
+                                        ],
+                                      ),
+                                    ),
+                                    width: double.infinity,
+                                    height: double.infinity,
+                                  ),
+                                );
+                              },
+                            ),
+                            // 3D Glass/Sphere Effect Overlay
+                            Container(
+                              width: double.infinity,
+                              height: double.infinity,
+                              decoration: BoxDecoration(
+                                gradient: RadialGradient(
+                                  center: const Alignment(-0.35, -0.45),
+                                  radius: 1.1,
+                                  colors: [
+                                    Colors.white.withValues(alpha: 0.8), // Specular highlight
+                                    Colors.white.withValues(alpha: 0.1), // Bright mid
+                                    Colors.transparent, // Neutral
+                                    Colors.black.withValues(alpha: 0.05), // Edge shadow
+                                    Colors.black.withValues(alpha: 0.25), // Deep edge shadow
+                                  ],
+                                  stops: const [0.0, 0.2, 0.5, 0.8, 1.0],
+                                ),
+                              ),
+                            ),
+                            Center(
+                              child: Padding(
+                                padding: EdgeInsets.only(top: baseSize * 0.1),
+                                child: _buildFace(),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                   ...widget.equippedItems.where((i) => i.category == 'face').map((face) => 
@@ -278,7 +308,7 @@ class _SlimeCharacterState extends State<SlimeCharacter>
                   ),
                   ...widget.equippedItems.where((i) => i.category == 'head').map((head) => 
                      Positioned(
-                        top: -baseSize * 0.3, // 모자 위치
+                        top: -baseSize * 0.12, // 모자 위치 조정 (슬라임 머리에 맞게 내림)
                         child: ShopItemVisual(itemId: head.id, size: baseSize * 0.6)
                      )
                   ),
@@ -367,5 +397,46 @@ class WaveClipper extends CustomClipper<Path> {
   @override
   bool shouldReclip(WaveClipper oldClipper) {
     return oldClipper.animationValue != animationValue || oldClipper.progress != progress;
+  }
+}
+
+class SlimeClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    Path path = Path();
+    final w = size.width;
+    final h = size.height;
+    
+    path.moveTo(w * 0.5, h * 0.1); 
+    path.cubicTo(w * 0.75, h * 0.1, w * 0.95, h * 0.3, w * 0.95, h * 0.6);
+    path.cubicTo(w * 0.95, h * 0.85, w * 0.8, h * 0.925, w * 0.5, h * 0.925);
+    path.cubicTo(w * 0.2, h * 0.925, w * 0.05, h * 0.85, w * 0.05, h * 0.6);
+    path.cubicTo(w * 0.05, h * 0.3, w * 0.25, h * 0.1, w * 0.5, h * 0.1);
+    
+    path.close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(covariant CustomClipper<Path> oldClipper) => false;
+}
+
+class SlimeShadowPainter extends CustomPainter {
+  final Color shadowColor;
+  SlimeShadowPainter({required this.shadowColor});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    Path path = SlimeClipper().getClip(size);
+    // Draw an ambient, softer shadow behind
+    canvas.drawShadow(path, shadowColor, 12, false);
+    
+    // Draw a sharper, darker directional shadow slightly shifted downwards
+    canvas.drawShadow(path.shift(const Offset(0, 4)), shadowColor.withValues(alpha: 0.7), 8, false);
+  }
+
+  @override
+  bool shouldRepaint(covariant SlimeShadowPainter oldDelegate) {
+    return oldDelegate.shadowColor != shadowColor;
   }
 }

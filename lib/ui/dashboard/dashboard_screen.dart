@@ -332,77 +332,92 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
       bgItem = null;
     }
 
-    return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: colorScheme.surface,
-        borderRadius: BorderRadius.circular(28.0),
-        boxShadow: [
-          BoxShadow(
-            color: colorScheme.primary.withOpacity(0.05),
-            blurRadius: 15,
-            offset: Offset(0, 10),
+    return Column(
+      children: [
+        Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: colorScheme.surface,
+            borderRadius: BorderRadius.circular(28.0),
+            boxShadow: [
+              BoxShadow(
+                color: colorScheme.primary.withValues(alpha: 0.05),
+                blurRadius: 15,
+                offset: const Offset(0, 10),
+              ),
+            ],
           ),
-        ],
-      ),
-      child: Stack(
-        children: [
-          if (bgItem != null)
-            Positioned.fill(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(28.0),
-                child: Opacity(
-                  opacity: 0.3,
-                  child: FittedBox(
-                    fit: BoxFit.cover,
-                    child: ShopItemVisual(itemId: bgItem.id, size: 300),
+          child: Stack(
+            children: [
+              if (bgItem != null)
+                Positioned.fill(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(28.0),
+                    child: Opacity(
+                      opacity: 0.5,
+                      child: FittedBox(
+                        fit: BoxFit.cover,
+                        child: ShopItemVisual(itemId: bgItem.id, size: 300),
+                      ),
+                    ),
+                  ),
+                ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 20),
+                child: Center(
+                  child: SizedBox(
+                    height: 220, // Increased height to prevent bottom overflow when hats are equipped
+                    child: Center(
+                      child: SlimeCharacter(
+                        currentSteps: currentSteps,
+                        dailyGoal: targetSteps,
+                        totalLifetimeSteps: lifetimeSteps,
+                        equippedItems: _equippedItems,
+                        onMultiTap: () => _showDebugStepDialog(),
+                      ),
+                    ),
                   ),
                 ),
               ),
-            ),
-          Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              children: [
-                SlimeCharacter(
-                  currentSteps: currentSteps,
-                  dailyGoal: targetSteps,
-                  totalLifetimeSteps: lifetimeSteps,
-                  equippedItems: _equippedItems,
-                  onMultiTap: () => _showDebugStepDialog(),
-                ),
-                SizedBox(height: 30),
-                // Step Counter Text below the character
-                Column(
-                  children: [
-                    Text(
-                      NumberFormat('#,###').format(currentSteps),
-                      style: TextStyle(
-                        color: colorScheme.onSurface,
-                        fontSize: 32,
-                        fontWeight: FontWeight.w900,
-                      ),
-                    ),
-                    Text(
-                      '/ ${NumberFormat('#,###').format(targetSteps)} ${AppLocalizations.of(context)!.stepsUnit}',
-                      style: TextStyle(color: colorScheme.onSurface.withOpacity(0.6)),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 10),
-                // Minimal progress bar
-                LinearProgressIndicator(
-                  value: (currentSteps / targetSteps).clamp(0.0, 1.0),
-                  backgroundColor: Theme.of(context).brightness == Brightness.light ? Colors.grey[200]! : Colors.grey[800]!,
-                  color: colorScheme.primary,
-                  borderRadius: BorderRadius.circular(10),
-                  minHeight: 8,
-                ),
-              ],
-            ),
+            ],
           ),
-        ],
-      ),
+        ),
+        const SizedBox(height: 24),
+        // Step Counter Text below the character container
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.baseline,
+          textBaseline: TextBaseline.alphabetic,
+          children: [
+            Text(
+              NumberFormat('#,###').format(currentSteps),
+              style: TextStyle(
+                color: colorScheme.onSurface,
+                fontSize: 36,
+                fontWeight: FontWeight.w900,
+              ),
+            ),
+            const SizedBox(width: 8),
+            Text(
+              '/ ${NumberFormat('#,###').format(targetSteps)} ${AppLocalizations.of(context)!.stepsUnit}',
+              style: TextStyle(
+                color: colorScheme.onSurface.withValues(alpha: 0.6),
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 16),
+        // Minimal progress bar
+        LinearProgressIndicator(
+          value: (currentSteps / targetSteps).clamp(0.0, 1.0),
+          backgroundColor: Theme.of(context).brightness == Brightness.light ? Colors.grey[200]! : Colors.grey[800]!,
+          color: colorScheme.primary,
+          borderRadius: BorderRadius.circular(10),
+          minHeight: 12,
+        ),
+      ],
     );
   }
 
