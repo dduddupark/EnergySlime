@@ -73,9 +73,9 @@ class _SlimeCharacterState extends State<SlimeCharacter>
   }
 
   Color get slimeColor {
-    // Interpolate from Grey to Sky Blue based on progress
-    return Color.lerp(Colors.grey[400]!, Color(0xFF38BDF8), progress) ??
-        Colors.blue;
+    // Interpolate from Pale Mint to Main Mint based on progress
+    return Color.lerp(const Color(0xFFD1EAEF), const Color(0xFFA7D8DE), progress) ??
+        const Color(0xFFA7D8DE);
   }
 
   String speechText(BuildContext context) {

@@ -143,10 +143,10 @@ class _HistoryScreenState extends State<HistoryScreen> {
                   Container(
                     decoration: BoxDecoration(
                       color: colorScheme.surface,
-                      borderRadius: BorderRadius.circular(24.0),
+                      borderRadius: BorderRadius.circular(28.0),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.05),
+                          color: colorScheme.primary.withOpacity(0.05),
                           blurRadius: 20,
                           offset: const Offset(0, 10),
                         ),

@@ -243,9 +243,10 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
               margin: const EdgeInsets.symmetric(vertical: 12, horizontal: 4),
               decoration: BoxDecoration(
                 color: colorScheme.primary.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(24.0),
+                borderRadius: BorderRadius.circular(28.0),
               ),
               child: Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   const Icon(Icons.water_drop, color: Colors.blueAccent, size: 16),
                   const SizedBox(width: 4),
@@ -277,7 +278,7 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
                   margin: EdgeInsets.only(bottom: 20),
                   decoration: BoxDecoration(
                     color: Colors.orange.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(24.0),
+                    borderRadius: BorderRadius.circular(28.0),
                     border: Border.all(color: Colors.orange),
                   ),
                   child: Row(
@@ -335,10 +336,10 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
       width: double.infinity,
       decoration: BoxDecoration(
         color: colorScheme.surface,
-        borderRadius: BorderRadius.circular(24.0),
+        borderRadius: BorderRadius.circular(28.0),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: colorScheme.primary.withOpacity(0.05),
             blurRadius: 15,
             offset: Offset(0, 10),
           ),
@@ -349,7 +350,7 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
           if (bgItem != null)
             Positioned.fill(
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(24.0),
+                borderRadius: BorderRadius.circular(28.0),
                 child: Opacity(
                   opacity: 0.3,
                   child: FittedBox(
@@ -379,7 +380,7 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
                       style: TextStyle(
                         color: colorScheme.onSurface,
                         fontSize: 32,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w900,
                       ),
                     ),
                     Text(
@@ -392,7 +393,7 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
                 // Minimal progress bar
                 LinearProgressIndicator(
                   value: (currentSteps / targetSteps).clamp(0.0, 1.0),
-                  backgroundColor: colorScheme.onSurface.withOpacity(0.1),
+                  backgroundColor: Theme.of(context).brightness == Brightness.light ? Colors.grey[200]! : Colors.grey[800]!,
                   color: colorScheme.primary,
                   borderRadius: BorderRadius.circular(10),
                   minHeight: 8,
@@ -508,10 +509,10 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: colorScheme.surface,
-        borderRadius: BorderRadius.circular(24.0),
+        borderRadius: BorderRadius.circular(28.0),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: colorScheme.primary.withOpacity(0.05),
             blurRadius: 10,
             offset: Offset(0, 5),
           ),
@@ -521,22 +522,37 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(icon, color: color, size: 30),
+          Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: const Color(0xFFF9E076).withOpacity(0.3), // Light Lemon
+              shape: BoxShape.circle,
+            ),
+            child: Icon(icon, color: color, size: 30),
+          ),
           SizedBox(height: 15),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                value,
-                style: TextStyle(
-                  color: colorScheme.onSurface,
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  value,
+                  style: TextStyle(
+                    color: colorScheme.onSurface,
+                    fontSize: 24,
+                    fontWeight: FontWeight.w900,
+                  ),
                 ),
               ),
-              Text(
-                '$title ($unit)',
-                style: TextStyle(color: colorScheme.onSurface.withOpacity(0.6), fontSize: 12),
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  '$title ($unit)',
+                  style: TextStyle(color: colorScheme.onSurface.withOpacity(0.6), fontSize: 12),
+                ),
               ),
             ],
           ),

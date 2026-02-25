@@ -52,7 +52,7 @@ class _PurchaseHistoryScreenState extends State<PurchaseHistoryScreen> {
                     final item = _purchasedItems[index];
                     return Card(
                       margin: const EdgeInsets.only(bottom: 12),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24.0)),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28.0)),
                       child: ListTile(
                         leading: Container(
                           width: 50,

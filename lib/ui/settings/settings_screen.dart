@@ -28,7 +28,7 @@ class SettingsScreen extends StatelessWidget {
           Card(
             elevation: 0,
             color: Theme.of(context).colorScheme.surface,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24.0)),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28.0)),
             child: Column(
               children: [
                 ListTile(
@@ -61,7 +61,7 @@ class SettingsScreen extends StatelessWidget {
           Card(
             elevation: 0,
             color: Theme.of(context).colorScheme.surface,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24.0)),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28.0)),
             child: Column(
               children: [
                 ListenableBuilder(
@@ -71,7 +71,7 @@ class SettingsScreen extends StatelessWidget {
                       title: Text(AppLocalizations.of(context)!.darkTheme),
                       subtitle: Text(AppLocalizations.of(context)!.darkThemeSubtitle),
                       value: themeManager.isDarkMode,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24.0)),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28.0)),
                       onChanged: (value) {
                         themeManager.toggleTheme(value);
                       },
