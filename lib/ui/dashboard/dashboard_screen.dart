@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../ui/providers/activity_provider.dart';
 import '../../ui/providers/points_provider.dart';
+import '../../ui/providers/shop_provider.dart';
 import '../../data/models/activity_model.dart';
 import '../../data/models/activity_state.dart';
 import '../../ui/widgets/slime_character.dart';
@@ -107,7 +108,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen>
                 MaterialPageRoute(builder: (context) => ShopScreen()),
               );
               ref.read(pointsProvider.notifier).refreshPoints();
-              ref.read(equippedItemsProvider.notifier).refreshItems();
+              ref.read(shopItemsProvider.notifier).refreshItems();
             },
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 10),
