@@ -32,6 +32,7 @@
 
 ## 🛠 사용된 핵심 기술 스택
 - **Framework:** Flutter (Dart)
+- **State Management:** `flutter_riverpod` (전역 반응형 상태 관리 및 의존성 주입)
 - **Local Storage:** `shared_preferences` & `sqflite` (앱 세팅 및 걸음 수 저장)
 - **Health Sync:** `health` 패키지 (Health Connect 프로토콜 연동)
 - **Background Tracking:** `flutter_foreground_task` (안드로이드/iOS 서비스 트래킹 지원)
@@ -43,6 +44,7 @@
 * [x] 다국어(한국어, 영어) 완벽 지원 + 지역화 달력 렌더링
 * [x] 앱 내 다크 모드 토글 시스템 구현
 * [x] 걸음 기반 상점 시스템 구축 (포인트 적립, 아이템 꾸미기 및 구매 내역 조회)
+* [x] 전역 상태 관리 아키텍처 도입 (Riverpod 3.0 Notifier 활용)
 * [ ] *(새로운 기능이 추가될 때마다 이곳에 기록될 예정입니다)*
 
 ---
