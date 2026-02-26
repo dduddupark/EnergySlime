@@ -1,0 +1,31 @@
+Running Gradle task 'assembleDebug'...                          
+lib/ui/dashboard/dashboard_screen.dart:199:53: Error: Type 'ActivityState' not found.
+  Widget _buildSummaryCard(ColorScheme colorScheme, ActivityState activityState, List<ShopItem> equippedItems) {
+                                                    ^^^^^^^^^^^^^
+lib/ui/dashboard/dashboard_screen.dart:382:50: Error: Type 'ActivityState' not found.
+  Widget _buildStatGrid(ColorScheme colorScheme, ActivityState activityState) {
+                                                 ^^^^^^^^^^^^^
+lib/ui/dashboard/dashboard_screen.dart:199:53: Error: 'ActivityState' isn't a type.
+  Widget _buildSummaryCard(ColorScheme colorScheme, ActivityState activityState, List<ShopItem> equippedItems) {
+                                                    ^^^^^^^^^^^^^
+lib/ui/dashboard/dashboard_screen.dart:382:50: Error: 'ActivityState' isn't a type.
+  Widget _buildStatGrid(ColorScheme colorScheme, ActivityState activityState) {
+                                                 ^^^^^^^^^^^^^
+Target kernel_snapshot_program failed: Exception
+
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':app:compileFlutterBuildDebug'.
+> Process 'command '/opt/homebrew/share/flutter/bin/flutter'' finished with non-zero exit value 1
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 2s
+Running Gradle task 'assembleDebug'...                           2,480ms
+Gradle task assembleDebug failed with exit code 1

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'ui/dashboard/dashboard_screen.dart';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'core/theme/theme_manager.dart';
@@ -8,7 +9,7 @@ import 'ui/splash/splash_screen.dart';
 
 void main() {
   FlutterForegroundTask.initCommunicationPort();
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
