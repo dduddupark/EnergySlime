@@ -356,6 +356,24 @@ abstract class AppLocalizations {
   /// **'Initializing step data...'**
   String get initStepData;
 
+  /// No description provided for @recentDaysHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent {days} days {title}'**
+  String recentDaysHistory(Object days, Object title);
+
+  /// No description provided for @dday_n.
+  ///
+  /// In en, this message translates to:
+  /// **'D-{days}'**
+  String dday_n(Object days);
+
+  /// No description provided for @today.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get today;
+
   /// No description provided for @hat_red.
   ///
   /// In en, this message translates to:

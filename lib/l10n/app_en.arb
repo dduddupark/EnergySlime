@@ -78,6 +78,9 @@
   "add100Points": "Add 100 Points",
   "add100PointsSuccess": "💧 Test: 100 points granted! 💧",
   "initStepData": "Initializing step data...",
+  "recentDaysHistory": "Recent {days} days {title}",
+  "dday_n": "D-{days}",
+  "today": "Today",
   
   "hat_red": "Red Cap",
   "hat_crown": "Small Crown",

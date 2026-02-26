@@ -154,6 +154,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get initStepData => 'Initializing step data...';
 
   @override
+  String recentDaysHistory(Object days, Object title) {
+    return 'Recent $days days $title';
+  }
+
+  @override
+  String dday_n(Object days) {
+    return 'D-$days';
+  }
+
+  @override
+  String get today => 'Today';
+
+  @override
   String get hat_red => 'Red Cap';
 
   @override

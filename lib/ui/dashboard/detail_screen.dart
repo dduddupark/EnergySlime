@@ -3,6 +3,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:stepflow/data/models/activity_model.dart';
 import '../../data/services/health_service.dart';
 import '../../data/services/fallback_pedometer_service.dart';
+import '../../l10n/app_localizations.dart';
 
 class DetailScreen extends StatefulWidget {
   final String title;
@@ -139,7 +140,7 @@ class _DetailScreenState extends State<DetailScreen> {
                       child: Column(
                         children: [
                           Text(
-                            '오늘의 기록',
+                            AppLocalizations.of(context)!.todayRecord,
                             style: TextStyle(
                               fontSize: 14,
                               color:
@@ -180,7 +181,8 @@ class _DetailScreenState extends State<DetailScreen> {
 
                     // Chart Title
                     Text(
-                      '최근 7일 ${widget.title}',
+                      AppLocalizations.of(context)!
+                          .recentDaysHistory(7, widget.title),
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -229,13 +231,18 @@ class _DetailScreenState extends State<DetailScreen> {
                                 reservedSize: 22,
                                 interval: 1,
                                 getTitlesWidget: (value, meta) {
-                                  switch (value.toInt()) {
-                                    case 0:
-                                      return const Text('D-6');
-                                    case 3:
-                                      return const Text('D-3');
-                                    case 6:
-                                      return const Text('오늘');
+                                  int index = value.toInt();
+                                  // index 0(가장 왼쪽)일 때 6 - 0 = 6일 전(D-6)
+                                  // index 6(가장 오른쪽)일 때 6 - 6 = 0(오늘)
+                                  int daysAgo = 6 - index;
+
+                                  if (daysAgo == 0) {
+                                    return Text(
+                                        AppLocalizations.of(context)!.today);
+                                  } else if (index % 3 == 0) {
+                                    // Show D-6, D-3 labels
+                                    return Text(AppLocalizations.of(context)!
+                                        .dday_n(daysAgo));
                                   }
                                   return const Text('');
                                 },

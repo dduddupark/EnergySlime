@@ -151,6 +151,19 @@ class AppLocalizationsKo extends AppLocalizations {
   String get initStepData => '걸음 수 데이터를 초기화 중입니다...';
 
   @override
+  String recentDaysHistory(Object days, Object title) {
+    return '최근 $days일 $title';
+  }
+
+  @override
+  String dday_n(Object days) {
+    return 'D-$days';
+  }
+
+  @override
+  String get today => 'Today';
+
+  @override
   String get hat_red => '빨간 캡모자';
 
   @override

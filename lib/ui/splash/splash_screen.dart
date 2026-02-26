@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:stepflow/main.dart';
+import '../../l10n/app_localizations.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -9,7 +10,8 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderStateMixin {
+class _SplashScreenState extends State<SplashScreen>
+    with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
 
@@ -20,8 +22,9 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
       vsync: this,
       duration: const Duration(milliseconds: 1000),
     );
-    _fadeAnimation = CurvedAnimation(parent: _animationController, curve: Curves.easeIn);
-    
+    _fadeAnimation =
+        CurvedAnimation(parent: _animationController, curve: Curves.easeIn);
+
     _animationController.forward();
 
     Future.delayed(const Duration(milliseconds: 2500), () {
@@ -42,7 +45,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    
+
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: FadeTransition(
@@ -58,7 +61,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
               ),
               const SizedBox(height: 20),
               Text(
-                'Energy Slime',
+                AppLocalizations.of(context)!.appTitle,
                 style: GoogleFonts.nanumGothic(
                   fontSize: 32,
                   fontWeight: FontWeight.w900,

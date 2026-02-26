@@ -179,8 +179,8 @@ class _DashboardScreenState extends State<DashboardScreen>
           // Foreground task (Notification) 시작
           if (await FlutterForegroundTask.isRunningService == false) {
             FlutterForegroundTask.startService(
-              notificationTitle: 'Energy Slime',
-              notificationText: '걸음 수 기록 중...',
+              notificationTitle: AppLocalizations.of(context)!.appTitle,
+              notificationText: AppLocalizations.of(context)!.trackingSteps,
               callback: startCallback,
             );
           }
