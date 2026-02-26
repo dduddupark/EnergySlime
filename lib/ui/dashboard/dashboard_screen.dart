@@ -17,6 +17,7 @@ import 'package:stepflow/l10n/app_localizations.dart';
 import '../shop/shop_item_visual.dart';
 import 'detail_screen.dart';
 import 'dart:async';
+import '../../data/models/activity_model.dart';
 
 // Fixed incorrect extension usage
 const Color slateAlpha = Color(0xFF94A3B8);
@@ -26,7 +27,8 @@ class DashboardScreen extends StatefulWidget {
   _DashboardScreenState createState() => _DashboardScreenState();
 }
 
-class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingObserver {
+class _DashboardScreenState extends State<DashboardScreen>
+    with WidgetsBindingObserver {
   final HealthService _healthService = HealthService();
   final FallbackPedometerService _pedometerService = FallbackPedometerService();
   ActivityModel? _todayActivity;
@@ -64,7 +66,8 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
       androidNotificationOptions: AndroidNotificationOptions(
         channelId: 'step_counter',
         channelName: 'Step Counter Notification',
-        channelDescription: 'This notification keeps the step counter alive in the background.',
+        channelDescription:
+            'This notification keeps the step counter alive in the background.',
         channelImportance: NotificationChannelImportance.LOW,
         priority: NotificationPriority.LOW,
       ),
@@ -95,7 +98,10 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
 
       // 권한 요청 팝업이 닫힌 직후에 발생하는 지연된 resumed 이벤트를 무시하여 무한루프 방지
       if (_lastPermissionRequestTime != null &&
-          DateTime.now().difference(_lastPermissionRequestTime!).inMilliseconds < 1000) {
+          DateTime.now()
+                  .difference(_lastPermissionRequestTime!)
+                  .inMilliseconds <
+              1000) {
         return;
       }
 
@@ -103,7 +109,8 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
     }
   }
 
-  Future<void> _loadData({bool isUserInitiated = false, bool forceRequest = false}) async {
+  Future<void> _loadData(
+      {bool isUserInitiated = false, bool forceRequest = false}) async {
     if (_isFetching) return;
     _isFetching = true;
 
@@ -116,9 +123,12 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
 
       // 1. Check if we already have Health Connect permissions.
       // We don't want to trigger the system popup automatically on app start unless forceRequest is true.
-      final permissions = _healthService.types.map<HealthDataAccess>((e) => HealthDataAccess.READ).toList();
-      bool? hasHealthConnectPerms = await _healthService.health.hasPermissions(_healthService.types, permissions: permissions);
-      
+      final permissions = _healthService.types
+          .map<HealthDataAccess>((e) => HealthDataAccess.READ)
+          .toList();
+      bool? hasHealthConnectPerms = await _healthService.health
+          .hasPermissions(_healthService.types, permissions: permissions);
+
       bool authorized = hasHealthConnectPerms == true;
 
       // If user clicked a button, force the request
@@ -148,71 +158,72 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
 
       // 2. If Health Connect didn't work or gave 0 steps, try Activity Recognition (Sensor)
       if (!hasHealthData) {
-         bool isSensorGranted = await Permission.activityRecognition.isGranted;
-         
-         if (!isSensorGranted && forceRequest) {
-             _isRequestingPermission = true;
-             final status = await Permission.activityRecognition.request();
-             isSensorGranted = status.isGranted;
-             _lastPermissionRequestTime = DateTime.now();
-             _isRequestingPermission = false;
-         }
+        bool isSensorGranted = await Permission.activityRecognition.isGranted;
 
-         if (isSensorGranted) {
-             hasHealthData = true; // 우리는 센서에 의존할거임
+        if (!isSensorGranted && forceRequest) {
+          _isRequestingPermission = true;
+          final status = await Permission.activityRecognition.request();
+          isSensorGranted = status.isGranted;
+          _lastPermissionRequestTime = DateTime.now();
+          _isRequestingPermission = false;
+        }
 
-             // 알림 권한 요청 (Android 13+ 에서 알림을 띄우기 위해 필수)
-             if (await Permission.notification.isDenied) {
-                 await Permission.notification.request();
-             }
+        if (isSensorGranted) {
+          hasHealthData = true; // 우리는 센서에 의존할거임
 
-             // Foreground task (Notification) 시작
-             if (await FlutterForegroundTask.isRunningService == false) {
-                 FlutterForegroundTask.startService(
-                     notificationTitle: 'Energy Slime',
-                     notificationText: '걸음 수 기록 중...',
-                     callback: startCallback,
-                 );
-             }
+          // 알림 권한 요청 (Android 13+ 에서 알림을 띄우기 위해 필수)
+          if (await Permission.notification.isDenied) {
+            await Permission.notification.request();
+          }
 
-             // 스트림 구독 해제/재구독 방지
-             _stepSubscription?.cancel();
-             _stepSubscription = _pedometerService.stepStream.listen((steps) async {
-                 if (mounted) {
-                     int earned = await ShopStorageService().checkAndEarnPoints(steps);
-                     if (earned > 0) {
-                         _loadPoints(); // 포인트 화면 갱신
-                     }
+          // Foreground task (Notification) 시작
+          if (await FlutterForegroundTask.isRunningService == false) {
+            FlutterForegroundTask.startService(
+              notificationTitle: 'Energy Slime',
+              notificationText: '걸음 수 기록 중...',
+              callback: startCallback,
+            );
+          }
 
-                     setState(() {
-                         _todayActivity = ActivityModel(
-                             steps: steps,
-                             calories: steps * 0.04, 
-                             activeMinutes: (steps / 100).floor(),
-                             date: DateTime.now(),
-                             timestamp: DateTime.now().millisecondsSinceEpoch,
-                         );
-                         _isLoading = false;
-                     });
-                 }
-             }, onError: (error) {
-                 debugPrint("Pedometer stream error: $error");
-             });
-             
-             // 빠른 초기 표시를 위해 로딩 삭제
-             setState(() => _isLoading = false);
-         }
+          // 스트림 구독 해제/재구독 방지
+          _stepSubscription?.cancel();
+          _stepSubscription =
+              _pedometerService.stepStream.listen((steps) async {
+            if (mounted) {
+              int earned = await ShopStorageService().checkAndEarnPoints(steps);
+              if (earned > 0) {
+                _loadPoints(); // 포인트 화면 갱신
+              }
+
+              setState(() {
+                _todayActivity = ActivityModel(
+                  steps: steps,
+                  calories: steps * 0.04,
+                  activeMinutes: (steps / 100).floor(),
+                  date: DateTime.now(),
+                  timestamp: DateTime.now().millisecondsSinceEpoch,
+                );
+                _isLoading = false;
+              });
+            }
+          }, onError: (error) {
+            debugPrint("Pedometer stream error: $error");
+          });
+
+          // 빠른 초기 표시를 위해 로딩 삭제
+          setState(() => _isLoading = false);
+        }
       }
 
       // Finish loading state
       setState(() => _isLoading = false);
-      
+
       if (!hasHealthData && _todayActivity == null && mounted && forceRequest) {
-         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(AppLocalizations.of(context)!.noHealthDataWarning)),
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+              content: Text(AppLocalizations.of(context)!.noHealthDataWarning)),
         );
       }
-
     } finally {
       _isFetching = false;
     }
@@ -226,7 +237,8 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.appTitle, style: const TextStyle(fontWeight: FontWeight.bold)),
+        title: Text(AppLocalizations.of(context)!.appTitle,
+            style: const TextStyle(fontWeight: FontWeight.bold)),
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         elevation: 0,
         centerTitle: true,
@@ -249,9 +261,13 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(Icons.water_drop, color: Colors.blueAccent, size: 16),
+                  const Icon(Icons.water_drop,
+                      color: Colors.blueAccent, size: 16),
                   const SizedBox(width: 4),
-                  Text('$_currentPoints', style: TextStyle(color: Colors.blue[600], fontWeight: FontWeight.bold)),
+                  Text('$_currentPoints',
+                      style: TextStyle(
+                          color: Colors.blue[600],
+                          fontWeight: FontWeight.bold)),
                 ],
               ),
             ),
@@ -289,11 +305,13 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
                       Expanded(
                         child: Text(
                           AppLocalizations.of(context)!.noDataMsg,
-                          style: TextStyle(color: Colors.orange[200], fontSize: 13),
+                          style: TextStyle(
+                              color: Colors.orange[200], fontSize: 13),
                         ),
                       ),
                       TextButton(
-                        onPressed: () => _loadData(isUserInitiated: true, forceRequest: true),
+                        onPressed: () => _loadData(
+                            isUserInitiated: true, forceRequest: true),
                         child: Text(AppLocalizations.of(context)!.connect),
                       )
                     ],
@@ -321,10 +339,11 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
   Widget _buildSummaryCard(ColorScheme colorScheme) {
     int targetSteps = 10000;
     int currentSteps = _todayActivity?.steps ?? 0;
-    
+
     // Determine evolution level based on mock lifetime steps (or just use current for now as MVP)
     // In a real app, this would come from a user stats provider
-    int lifetimeSteps = currentSteps; // TODO: Replace with actual lifetime steps
+    int lifetimeSteps =
+        currentSteps; // TODO: Replace with actual lifetime steps
 
     ShopItem? bgItem;
     try {
@@ -364,10 +383,12 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
                   ),
                 ),
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 20),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 50, horizontal: 20),
                 child: Center(
                   child: SizedBox(
-                    height: 220, // Increased height to prevent bottom overflow when hats are equipped
+                    height:
+                        220, // Increased height to prevent bottom overflow when hats are equipped
                     child: Center(
                       child: SlimeCharacter(
                         currentSteps: currentSteps,
@@ -413,7 +434,9 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
         // Minimal progress bar
         LinearProgressIndicator(
           value: (currentSteps / targetSteps).clamp(0.0, 1.0),
-          backgroundColor: Theme.of(context).brightness == Brightness.light ? Colors.grey[200]! : Colors.grey[800]!,
+          backgroundColor: Theme.of(context).brightness == Brightness.light
+              ? Colors.grey[200]!
+              : Colors.grey[800]!,
           color: colorScheme.primary,
           borderRadius: BorderRadius.circular(10),
           minHeight: 12,
@@ -424,72 +447,84 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
 
   void _showDebugStepDialog() {
     showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          backgroundColor: const Color(0xFF1E293B),
-          title: Text(AppLocalizations.of(context)!.testingTitle, style: const TextStyle(color: Colors.white)),
-          content: Container(
-            width: double.maxFinite,
-            constraints: BoxConstraints(maxHeight: 400),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-
-                ListTile(
-                  leading: const Icon(Icons.water_drop, color: Colors.blueAccent),
-                  title: Text(AppLocalizations.of(context)!.add100Points, style: const TextStyle(color: Colors.blueAccent, fontWeight: FontWeight.bold)),
-                  onTap: () async {
-                    Navigator.pop(context);
-                    final currentPoints = await ShopStorageService().loadPoints();
-                    await ShopStorageService().savePoints(currentPoints + 100);
-                    _loadPoints();
-                    if (mounted) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(AppLocalizations.of(context)!.add100PointsSuccess)),
-                      );
-                    }
-                  },
-                ),
-                const Divider(color: Colors.white24, height: 1),
-                Expanded(
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: 10, // 1000 ~ 10000
-                    itemBuilder: (context, index) {
-                      int steps = (index + 1) * 1000;
-                      return ListTile(
-                        title: Text(AppLocalizations.of(context)!.stepUnit(steps), style: const TextStyle(color: Colors.white70)),
-                        onTap: () async {
-                          Navigator.pop(context);
-                          await _pedometerService.setDebugSteps(steps);
-                          
-                          if (mounted) {
-                            setState(() {
-                               _todayActivity = ActivityModel(
-                                   steps: steps,
-                                   calories: steps * 0.04, 
-                                   activeMinutes: (steps / 100).floor(),
-                                   date: DateTime.now(),
-                                   timestamp: DateTime.now().millisecondsSinceEpoch,
-                               );
-                            });
-                            
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text(AppLocalizations.of(context)!.stepsSetMessage(steps))),
-                            );
-                          }
-                        },
-                      );
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            backgroundColor: const Color(0xFF1E293B),
+            title: Text(AppLocalizations.of(context)!.testingTitle,
+                style: const TextStyle(color: Colors.white)),
+            content: Container(
+              width: double.maxFinite,
+              constraints: BoxConstraints(maxHeight: 400),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ListTile(
+                    leading:
+                        const Icon(Icons.water_drop, color: Colors.blueAccent),
+                    title: Text(AppLocalizations.of(context)!.add100Points,
+                        style: const TextStyle(
+                            color: Colors.blueAccent,
+                            fontWeight: FontWeight.bold)),
+                    onTap: () async {
+                      Navigator.pop(context);
+                      final currentPoints =
+                          await ShopStorageService().loadPoints();
+                      await ShopStorageService()
+                          .savePoints(currentPoints + 100);
+                      _loadPoints();
+                      if (mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                              content: Text(AppLocalizations.of(context)!
+                                  .add100PointsSuccess)),
+                        );
+                      }
                     },
                   ),
-                ),
-              ],
+                  const Divider(color: Colors.white24, height: 1),
+                  Expanded(
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: 10, // 1000 ~ 10000
+                      itemBuilder: (context, index) {
+                        int steps = (index + 1) * 1000;
+                        return ListTile(
+                          title: Text(
+                              AppLocalizations.of(context)!.stepUnit(steps),
+                              style: const TextStyle(color: Colors.white70)),
+                          onTap: () async {
+                            Navigator.pop(context);
+                            await _pedometerService.setDebugSteps(steps);
+
+                            if (mounted) {
+                              setState(() {
+                                _todayActivity = ActivityModel(
+                                  steps: steps,
+                                  calories: steps * 0.04,
+                                  activeMinutes: (steps / 100).floor(),
+                                  date: DateTime.now(),
+                                  timestamp:
+                                      DateTime.now().millisecondsSinceEpoch,
+                                );
+                              });
+
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                    content: Text(AppLocalizations.of(context)!
+                                        .stepsSetMessage(steps))),
+                              );
+                            }
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        );
-      }
-    );
+          );
+        });
   }
 
   Widget _buildStatGrid(ColorScheme colorScheme) {
@@ -503,7 +538,7 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
             'kcal',
             Icons.local_fire_department,
             Colors.orangeAccent,
-            'calories',
+            ActivityType.calories,
           ),
         ),
         const SizedBox(width: 15),
@@ -515,14 +550,15 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
             'min',
             Icons.timer,
             Colors.greenAccent,
-            'active_time',
+            ActivityType.activeTime,
           ),
         ),
       ],
     );
   }
 
-  Widget _buildStatCard(ColorScheme colorScheme, String title, String value, String unit, IconData icon, Color color, String type) {
+  Widget _buildStatCard(ColorScheme colorScheme, String title, String value,
+      String unit, IconData icon, Color color, ActivityType type) {
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -583,7 +619,9 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
                   alignment: Alignment.centerLeft,
                   child: Text(
                     '$title ($unit)',
-                    style: TextStyle(color: colorScheme.onSurface.withOpacity(0.6), fontSize: 12),
+                    style: TextStyle(
+                        color: colorScheme.onSurface.withOpacity(0.6),
+                        fontSize: 12),
                   ),
                 ),
               ],

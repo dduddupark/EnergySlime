@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+enum ActivityType { calories, activeTime }
+
 class ActivityModel {
   final int? id;
   final int steps;
