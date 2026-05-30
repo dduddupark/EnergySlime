@@ -161,7 +161,7 @@ class AppLocalizationsKo extends AppLocalizations {
   }
 
   @override
-  String get today => 'Today';
+  String get today => '오늘';
 
   @override
   String get hat_red => '빨간 캡모자';

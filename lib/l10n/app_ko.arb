@@ -47,8 +47,8 @@
   "add100PointsSuccess": "💧 테스트용: 100 포인트 지급 완료! 💧",
   "initStepData": "걸음 수 데이터를 초기화 중입니다...",
   "recentDaysHistory": "최근 {days}일 {title}",
-  "Dday_N": "D-{days}",
-  "Today": "오늘",
+  "dday_n": "D-{days}",
+  "today": "오늘",
   
   "hat_red": "빨간 캡모자",
   "hat_crown": "작은 왕관",
