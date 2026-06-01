@@ -8,6 +8,7 @@ import 'shop_item_visual.dart';
 import 'purchase_history_screen.dart';
 import '../../l10n/app_localizations.dart';
 import '../../l10n/item_localization.dart';
+import '../../core/theme/app_colors.dart';
 
 class ShopScreen extends ConsumerWidget {
   const ShopScreen({super.key});
@@ -67,33 +68,34 @@ class ShopScreen extends ConsumerWidget {
               ),
               child: Row(
                 children: [
-                  const Icon(Icons.water_drop, color: Colors.blueAccent, size: 16),
+                  const Icon(Icons.water_drop, color: AppColors.accentBlue, size: 16),
                   const SizedBox(width: 4),
-                  Text('$points', style: TextStyle(color: Colors.blue[600], fontWeight: FontWeight.bold)),
+                  Text('$points', style: const TextStyle(color: AppColors.pointBlue, fontWeight: FontWeight.bold)),
                 ],
               ),
             ),
           ),
         ],
       ),
-      body: Column(
-        children: [
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-            color: colorScheme.primary.withOpacity(0.05),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(Icons.info_outline, size: 16, color: Colors.blueAccent),
-                const SizedBox(width: 8),
-                Text(
-                  AppLocalizations.of(context)!.earnPointRule,
-                  style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.blueAccent),
-                ),
-              ],
+      body: SafeArea(
+        child: Column(
+          children: [
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+              color: colorScheme.primary.withOpacity(0.05),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(Icons.info_outline, size: 16, color: AppColors.accentBlue),
+                  const SizedBox(width: 8),
+                  Text(
+                    AppLocalizations.of(context)!.earnPointRule,
+                    style: const TextStyle(fontWeight: FontWeight.bold, color: AppColors.accentBlue),
+                  ),
+                ],
+              ),
             ),
-          ),
           Expanded(
             child: items.isEmpty 
               ? const Center(child: CircularProgressIndicator())
@@ -143,8 +145,8 @@ class ShopScreen extends ConsumerWidget {
                             opacity: item.isPurchased ? 0.3 : 1.0,
                             child: Text(
                               '${item.price} 💧',
-                              style: TextStyle(
-                                color: Colors.blue[600],
+                              style: const TextStyle(
+                                color: AppColors.pointBlue,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -157,7 +159,7 @@ class ShopScreen extends ConsumerWidget {
                                     ? Colors.redAccent 
                                     : item.isPurchased 
                                         ? colorScheme.primary 
-                                        : Colors.blueAccent,
+                                        : AppColors.accentBlue,
                                 minimumSize: const Size(double.infinity, 36),
                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28.0)),
                               ),
@@ -185,6 +187,7 @@ class ShopScreen extends ConsumerWidget {
                 ),
           ),
         ],
+      ),
       ),
     );
   }

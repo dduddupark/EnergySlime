@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:stepflow/core/theme/app_colors.dart';
+import 'package:stepflow/core/theme/app_design_system.dart';
 import '../../ui/providers/activity_provider.dart';
 import '../../ui/providers/points_provider.dart';
 import '../../ui/providers/shop_provider.dart';
@@ -17,8 +19,6 @@ import 'package:stepflow/l10n/app_localizations.dart';
 import '../shop/shop_item_visual.dart';
 import 'detail_screen.dart';
 
-const Color slateAlpha = Color(0xFF94A3B8);
-
 class DashboardScreen extends ConsumerStatefulWidget {
   @override
   _DashboardScreenState createState() => _DashboardScreenState();
@@ -26,7 +26,6 @@ class DashboardScreen extends ConsumerStatefulWidget {
 
 class _DashboardScreenState extends ConsumerState<DashboardScreen>
     with WidgetsBindingObserver {
-  
   final FallbackPedometerService _pedometerService = FallbackPedometerService();
 
   @override
@@ -34,13 +33,13 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen>
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     _initForegroundTask();
-    
+
     // Call after first frame when context is ready for Localizations
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(activityProvider.notifier).loadData(
-        notificationTitle: AppLocalizations.of(context)!.appTitle,
-        notificationText: AppLocalizations.of(context)!.trackingSteps,
-      );
+            notificationTitle: AppLocalizations.of(context)!.appTitle,
+            notificationText: AppLocalizations.of(context)!.trackingSteps,
+          );
     });
   }
 
@@ -77,9 +76,9 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen>
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
       ref.read(activityProvider.notifier).loadData(
-        notificationTitle: AppLocalizations.of(context)!.appTitle,
-        notificationText: AppLocalizations.of(context)!.trackingSteps,
-      );
+            notificationTitle: AppLocalizations.of(context)!.appTitle,
+            notificationText: AppLocalizations.of(context)!.trackingSteps,
+          );
     }
   }
 
@@ -91,6 +90,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen>
 
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
+    final designSystem = Theme.of(context).extension<AppDesignSystem>()!;
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -114,17 +114,18 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen>
               padding: const EdgeInsets.symmetric(horizontal: 10),
               margin: const EdgeInsets.symmetric(vertical: 12, horizontal: 4),
               decoration: BoxDecoration(
-                color: colorScheme.primary.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(28.0),
+                color: colorScheme.primary.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(designSystem.cardRadius),
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(Icons.water_drop, color: Colors.blueAccent, size: 16),
+                  const Icon(Icons.water_drop,
+                      color: AppColors.accentBlue, size: 16),
                   const SizedBox(width: 4),
                   Text('$currentPoints',
-                      style: TextStyle(
-                          color: Colors.blue[600],
+                      style: const TextStyle(
+                          color: AppColors.pointBlue,
                           fontWeight: FontWeight.bold)),
                 ],
               ),
@@ -141,68 +142,90 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen>
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (activityState.todayActivity == null && !activityState.isLoading)
-                Container(
-                  padding: EdgeInsets.all(12),
-                  margin: EdgeInsets.only(bottom: 20),
-                  decoration: BoxDecoration(
-                    color: Colors.orange.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(28.0),
-                    border: Border.all(color: Colors.orange),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.all(designSystem.defaultPadding),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (activityState.todayActivity == null &&
+                    !activityState.isLoading)
+                  Container(
+                    padding: EdgeInsets.all(12),
+                    margin: EdgeInsets.only(bottom: 20),
+                    decoration: BoxDecoration(
+                      color: AppColors.warningOrange.withValues(alpha: 0.2),
+                      borderRadius:
+                          BorderRadius.circular(designSystem.cardRadius),
+                      border: Border.all(color: AppColors.warningOrange),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(Icons.info_outline,
+                            color: AppColors.warningOrange),
+                        SizedBox(width: 10),
+                        Expanded(
+                          child: Text(
+                            AppLocalizations.of(context)!.noDataMsg,
+                            style: TextStyle(
+                                color: Theme.of(context).brightness ==
+                                        Brightness.dark
+                                    ? AppColors.orangeAccent
+                                    : AppColors.darkSlateGray,
+                                fontSize: 13),
+                          ),
+                        ),
+                        TextButton(
+                            onPressed: () => ref
+                                .read(activityProvider.notifier)
+                                .loadData(
+                                  isUserInitiated: true,
+                                  forceRequest: true,
+                                  notificationTitle:
+                                      AppLocalizations.of(context)!.appTitle,
+                                  notificationText:
+                                      AppLocalizations.of(context)!
+                                          .trackingSteps,
+                                ),
+                            child: Text(
+                              AppLocalizations.of(context)!.connect,
+                              style: TextStyle(
+                                  color: Theme.of(context).brightness ==
+                                          Brightness.dark
+                                      ? AppColors.white
+                                      : AppColors.darkSlateGray,
+                                  fontSize: 13),
+                            )),
+                      ],
+                    ),
                   ),
-                  child: Row(
-                    children: [
-                      Icon(Icons.info_outline, color: Colors.orange),
-                      SizedBox(width: 10),
-                      Expanded(
-                        child: Text(
-                          AppLocalizations.of(context)!.noDataMsg,
-                          style: TextStyle(
-                              color: Colors.orange[200], fontSize: 13),
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () => ref.read(activityProvider.notifier).loadData(
-                            isUserInitiated: true,
-                            forceRequest: true,
-                            notificationTitle: AppLocalizations.of(context)!.appTitle,
-                            notificationText: AppLocalizations.of(context)!.trackingSteps,
-                        ),
-                        child: Text(AppLocalizations.of(context)!.connect),
-                      )
-                    ],
+                _buildSummaryCard(colorScheme, activityState, equippedItems),
+                SizedBox(height: 20),
+                Text(
+                  AppLocalizations.of(context)!.todayRecord,
+                  style: TextStyle(
+                    color: colorScheme.onSurface,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-              _buildSummaryCard(colorScheme, activityState, equippedItems),
-              SizedBox(height: 20),
-              Text(
-                AppLocalizations.of(context)!.todayRecord,
-                style: TextStyle(
-                  color: colorScheme.onSurface,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 15),
-              _buildStatGrid(colorScheme, activityState),
-            ],
+                SizedBox(height: 15),
+                _buildStatGrid(colorScheme, activityState),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  Widget _buildSummaryCard(ColorScheme colorScheme, ActivityState activityState, List<ShopItem> equippedItems) {
+  Widget _buildSummaryCard(ColorScheme colorScheme, ActivityState activityState,
+      List<ShopItem> equippedItems) {
     int targetSteps = 10000;
     int currentSteps = activityState.todayActivity?.steps ?? 0;
 
-    int lifetimeSteps = currentSteps; 
+    int lifetimeSteps = currentSteps;
 
     ShopItem? bgItem;
     try {
@@ -211,16 +234,18 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen>
       bgItem = null;
     }
 
+    final designSystem = Theme.of(context).extension<AppDesignSystem>()!;
+
     return Column(
       children: [
         Container(
           width: double.infinity,
           decoration: BoxDecoration(
             color: colorScheme.surface,
-            borderRadius: BorderRadius.circular(28.0),
+            borderRadius: BorderRadius.circular(designSystem.cardRadius),
             boxShadow: [
               BoxShadow(
-                color: colorScheme.primary.withOpacity(0.05),
+                color: colorScheme.primary.withValues(alpha: 0.05),
                 blurRadius: 15,
                 offset: const Offset(0, 10),
               ),
@@ -231,7 +256,8 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen>
               if (bgItem != null)
                 Positioned.fill(
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(28.0),
+                    borderRadius:
+                        BorderRadius.circular(designSystem.cardRadius),
                     child: Opacity(
                       opacity: 0.5,
                       child: FittedBox(
@@ -246,7 +272,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen>
                     const EdgeInsets.symmetric(vertical: 50, horizontal: 20),
                 child: Center(
                   child: SizedBox(
-                    height: 220,
+                    height: 130,
                     child: Center(
                       child: SlimeCharacter(
                         currentSteps: currentSteps,
@@ -280,7 +306,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen>
             Text(
               '/ ${NumberFormat('#,###').format(targetSteps)} ${AppLocalizations.of(context)!.stepsUnit}',
               style: TextStyle(
-                color: colorScheme.onSurface.withOpacity(0.6),
+                color: colorScheme.onSurface.withValues(alpha: 0.6),
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
@@ -291,8 +317,8 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen>
         LinearProgressIndicator(
           value: (currentSteps / targetSteps).clamp(0.0, 1.0),
           backgroundColor: Theme.of(context).brightness == Brightness.light
-              ? Colors.grey[200]!
-              : Colors.grey[800]!,
+              ? AppColors.grey200
+              : AppColors.grey800,
           color: colorScheme.primary,
           borderRadius: BorderRadius.circular(10),
           minHeight: 12,
@@ -308,7 +334,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen>
           return AlertDialog(
             backgroundColor: const Color(0xFF1E293B),
             title: Text(AppLocalizations.of(context)!.testingTitle,
-                style: const TextStyle(color: Colors.white)),
+                style: const TextStyle(color: AppColors.white)),
             content: Container(
               width: double.maxFinite,
               constraints: BoxConstraints(maxHeight: 400),
@@ -316,16 +342,18 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen>
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   ListTile(
-                    leading:
-                        const Icon(Icons.water_drop, color: Colors.blueAccent),
+                    leading: const Icon(Icons.water_drop,
+                        color: AppColors.accentBlue),
                     title: Text(AppLocalizations.of(context)!.add100Points,
                         style: const TextStyle(
-                            color: Colors.blueAccent,
+                            color: AppColors.accentBlue,
                             fontWeight: FontWeight.bold)),
                     onTap: () async {
                       Navigator.pop(context);
-                      final currentPoints = await ShopStorageService().loadPoints();
-                      await ShopStorageService().savePoints(currentPoints + 100);
+                      final currentPoints =
+                          await ShopStorageService().loadPoints();
+                      await ShopStorageService()
+                          .savePoints(currentPoints + 100);
                       ref.read(pointsProvider.notifier).refreshPoints();
                       if (mounted) {
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -336,7 +364,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen>
                       }
                     },
                   ),
-                  const Divider(color: Colors.white24, height: 1),
+                  const Divider(color: AppColors.white24, height: 1),
                   Expanded(
                     child: ListView.builder(
                       shrinkWrap: true,
@@ -346,21 +374,22 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen>
                         return ListTile(
                           title: Text(
                               AppLocalizations.of(context)!.stepUnit(steps),
-                              style: const TextStyle(color: Colors.white70)),
+                              style: const TextStyle(color: AppColors.white70)),
                           onTap: () async {
                             Navigator.pop(context);
                             await _pedometerService.setDebugSteps(steps);
 
                             // We can just trigger a fake update into the provider directly for debug UI
-                            ref.read(activityProvider.notifier).state = ref.read(activityProvider).copyWith(
-                              todayActivity: ActivityModel(
-                                steps: steps,
-                                calories: steps * 0.04,
-                                activeMinutes: (steps / 100).floor(),
-                                date: DateTime.now(),
-                                timestamp: DateTime.now().millisecondsSinceEpoch,
-                              )
-                            );
+                            ref.read(activityProvider.notifier).state =
+                                ref.read(activityProvider).copyWith(
+                                        todayActivity: ActivityModel(
+                                      steps: steps,
+                                      calories: steps * 0.04,
+                                      activeMinutes: (steps / 100).floor(),
+                                      date: DateTime.now(),
+                                      timestamp:
+                                          DateTime.now().millisecondsSinceEpoch,
+                                    ));
 
                             if (mounted) {
                               ScaffoldMessenger.of(context).showSnackBar(
@@ -391,7 +420,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen>
             '${activityState.todayActivity?.calories.toInt() ?? 0}',
             'kcal',
             Icons.local_fire_department,
-            Colors.orangeAccent,
+            AppColors.orangeAccent,
             ActivityType.calories,
           ),
         ),
@@ -403,7 +432,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen>
             '${activityState.todayActivity?.activeMinutes ?? 0}',
             'min',
             Icons.timer,
-            Colors.greenAccent,
+            AppColors.greenAccent,
             ActivityType.activeTime,
           ),
         ),
@@ -413,6 +442,8 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen>
 
   Widget _buildStatCard(ColorScheme colorScheme, String title, String value,
       String unit, IconData icon, Color color, ActivityType type) {
+    final designSystem = Theme.of(context).extension<AppDesignSystem>()!;
+
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -431,10 +462,10 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen>
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
           color: colorScheme.surface,
-          borderRadius: BorderRadius.circular(28.0),
+          borderRadius: BorderRadius.circular(designSystem.cardRadius),
           boxShadow: [
             BoxShadow(
-              color: colorScheme.primary.withOpacity(0.05),
+              color: colorScheme.primary.withValues(alpha: 0.05),
               blurRadius: 10,
               offset: const Offset(0, 5),
             ),
@@ -447,7 +478,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen>
             Container(
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: const Color(0xFFF9E076).withOpacity(0.3),
+                color: const Color(0xFFF9E076).withValues(alpha: 0.3),
                 shape: BoxShape.circle,
               ),
               child: Icon(icon, color: color, size: 30),
@@ -474,7 +505,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen>
                   child: Text(
                     '$title ($unit)',
                     style: TextStyle(
-                        color: colorScheme.onSurface.withOpacity(0.6),
+                        color: colorScheme.onSurface.withValues(alpha: 0.6),
                         fontSize: 12),
                   ),
                 ),

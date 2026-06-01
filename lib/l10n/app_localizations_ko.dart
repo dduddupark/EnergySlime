@@ -9,7 +9,7 @@ class AppLocalizationsKo extends AppLocalizations {
   AppLocalizationsKo([String locale = 'ko']) : super(locale);
 
   @override
-  String get appTitle => 'Energy Slime';
+  String get appTitle => '에너지 슬라임';
 
   @override
   String get noDataMsg => '걸음 수 데이터가 없습니다.\n삼성 헬스 또는 구글 피트니스와 연동해주세요.';
@@ -21,10 +21,10 @@ class AppLocalizationsKo extends AppLocalizations {
   String get todayRecord => '오늘의 기록';
 
   @override
-  String get calories => 'Calories';
+  String get calories => '칼로리';
 
   @override
-  String get activeTime => 'Active Time';
+  String get activeTime => '활동 시간';
 
   @override
   String steps(String steps) {

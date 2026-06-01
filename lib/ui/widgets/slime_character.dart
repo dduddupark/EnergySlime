@@ -93,15 +93,15 @@ class _SlimeCharacterState extends State<SlimeCharacter>
   Widget _buildEvolutionDeco() {
     if (evolutionLevel == 3) {
       return Positioned(
-        top: -20,
-        child: Text("👑", style: TextStyle(fontSize: 40)),
+        top: -12,
+        child: Text("👑", style: TextStyle(fontSize: 24)),
       );
     }
     return SizedBox.shrink();
   }
 
   Widget _buildEyes({required bool isHungry}) {
-    double size = isHungry ? 6 : 9;
+    double size = isHungry ? 4 : 6;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -110,7 +110,7 @@ class _SlimeCharacterState extends State<SlimeCharacter>
           height: size,
           decoration: const BoxDecoration(color: Color(0xFF2E2E2E), shape: BoxShape.circle),
         ),
-        const SizedBox(width: 25),
+        const SizedBox(width: 16),
         Container(
           width: size,
           height: size,
@@ -128,9 +128,9 @@ class _SlimeCharacterState extends State<SlimeCharacter>
         return const Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.favorite, color: Colors.pinkAccent, size: 28),
-            SizedBox(width: 25),
-            Icon(Icons.favorite, color: Colors.pinkAccent, size: 28),
+            Icon(Icons.favorite, color: Colors.pinkAccent, size: 18),
+            SizedBox(width: 16),
+            Icon(Icons.favorite, color: Colors.pinkAccent, size: 18),
           ],
         );
       case SlimeState.active:
@@ -142,24 +142,24 @@ class _SlimeCharacterState extends State<SlimeCharacter>
   @override
   Widget build(BuildContext context) {
     double baseSize = evolutionLevel == 1
-        ? 100.0
+        ? 60.0
         : evolutionLevel == 2
-            ? 130.0
-            : 160.0;
+            ? 78.0
+            : 96.0;
 
     Widget speechBubble = Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         Container(
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(12),
             boxShadow: [
               BoxShadow(
                 color: Colors.black12,
-                offset: Offset(0, 4),
-                blurRadius: 4,
+                offset: Offset(0, 2),
+                blurRadius: 2,
               )
             ],
           ),
@@ -169,15 +169,15 @@ class _SlimeCharacterState extends State<SlimeCharacter>
             style: TextStyle(
               color: Colors.black87,
               fontWeight: FontWeight.bold,
-              fontSize: 12,
+              fontSize: 10,
             ),
           ),
         ),
         CustomPaint(
           painter: TrianglePainter(strokeColor: Colors.white, paintingStyle: PaintingStyle.fill),
           child: SizedBox(
-            height: 10,
-            width: 20,
+            height: 6,
+            width: 12,
           ),
         ),
       ],

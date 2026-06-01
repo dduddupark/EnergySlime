@@ -1,4 +1,7 @@
 {
     "editor.inlineSuggest.enabled": false,
-    "github.copilot.inlineSuggest.enable": false
+    "github.copilot.inlineSuggest.enable": false,
+    "java.project.sourcePaths": [
+        "lib/app_colors"
+    ]
 }
